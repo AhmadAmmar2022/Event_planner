@@ -1,5 +1,6 @@
 import 'package:file_templeate/Auth/signin.dart';
 import 'package:file_templeate/Auth/signup.dart';
+import 'package:file_templeate/screen/chat_screen.dart';
 
 import 'package:file_templeate/screen/homePage/HomePage.dart';
 import 'package:file_templeate/screen/vender/service/AddService.dart';
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: AddService(),
+      home: Signin(),
     );
   }
 }
