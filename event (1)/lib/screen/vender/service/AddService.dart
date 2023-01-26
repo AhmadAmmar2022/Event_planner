@@ -37,6 +37,15 @@ class _AddServiceState extends State<AddService> {
   File? myfile;
   var imagename;
   var url;
+  final imagePicker = ImagePicker();
+  late File imageFile;
+
+  Future getImage() async {
+    var picked = await ImagePicker().getImage(source: ImageSource.gallery);
+    setState(() {
+      imageFile = File(picked!.path);
+    });
+  }
 
   @override
   void dispose() {
@@ -47,7 +56,30 @@ class _AddServiceState extends State<AddService> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: homeAppBar(),
+      appBar: AppBar(
+        backgroundColor: Colors.blueAccent,
+        elevation: 0,
+        title: Text(
+          '  خدمات',
+          style: GoogleFonts.getFont('Almarai'),
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const ShowServices()));
+          },
+        ),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.close),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      ),
       body: Container(
         child: ListView(
           children: [
@@ -67,7 +99,7 @@ class _AddServiceState extends State<AddService> {
                         hint: "اسم الخدمة ",
                         controller: name,
                         valu: (val) {
-                          return validate(val!, 25, 2);
+                          //return validate(val!, 25, 2);
                         },
                       ),
                       CustomTextFild(
@@ -75,7 +107,7 @@ class _AddServiceState extends State<AddService> {
                         hint: "وصف الخدمة ",
                         controller: desc,
                         valu: (val) {
-                          return validate(val!, 30, 2);
+                          //return validate(val!, 30, 2);
                         },
                       ),
                       CustomTextFild(
@@ -83,7 +115,7 @@ class _AddServiceState extends State<AddService> {
                         hint: " السعر  ",
                         controller: salary,
                         valu: (val) {
-                          return validate(val!, 15, 1);
+                          //return validate(val!, 15, 1);
                         },
                       ),
                       Row(children: [
@@ -103,7 +135,23 @@ class _AddServiceState extends State<AddService> {
                           color: Color.fromARGB(255, 213, 204, 204),
                         ),
                         child: myfile == null
-                            ? showbuttomsheeet()
+                            ? Column(
+                                children: [
+                                  serviceButton(
+                                      onTap: pickImage,
+                                      text: " اختيار الصورة من الكاميرا "),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  serviceButton(
+                                      onTap: () async {
+                                        await getImage();
+                                        print(imageFile);
+                                        // uploadImage();
+                                      },
+                                      text: " تحميل الصورة من الاستديو "),
+                                ],
+                              )
                             : Image.file(myfile!),
                       ),
                       // serviceButton(

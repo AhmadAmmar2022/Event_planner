@@ -3,9 +3,10 @@ import 'package:google_fonts/google_fonts.dart';
 
 AppBar homeAppBar() {
   return AppBar(
+    backgroundColor: Colors.blueAccent,
     elevation: 0,
     title: Text(
-      ' إضافة خدمة',
+      '  خدمات',
       style: GoogleFonts.getFont('Almarai'),
     ),
     leading: IconButton(

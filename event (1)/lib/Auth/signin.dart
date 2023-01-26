@@ -78,7 +78,7 @@ class _SigninState extends State<Signin> {
                         children: [
                           CustomFormField(
                             valu: (val) {
-                              return validate(val!, 15, 10);
+                              //return validate(val!, 15, 10);
                             },
                             headingText: "البريد الالكتروني",
                             hintText: "البريد الالكتروني",
@@ -94,7 +94,7 @@ class _SigninState extends State<Signin> {
                           ),
                           CustomFormField(
                             valu: (val) {
-                              return validate(val!, 15, 8);
+                              //return validate(val!, 15, 8);
                             },
                             headingText: "كلمة السر",
                             maxLines: 1,
@@ -189,4 +189,3 @@ class _SigninState extends State<Signin> {
     }
   }
 }
-

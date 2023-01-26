@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_templeate/screen/vender/service/AddService.dart';
+import 'package:file_templeate/screen/vender/service/serviceDetails.dart';
+import 'package:file_templeate/widget/homeAppBar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
-
 import '../../../widget/services/custom_button.dart';
 import 'Editservice.dart';
 
@@ -24,15 +25,18 @@ class _ShowServicesState extends State<ShowServices> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: homeAppBar(),
       body: ListView(children: [
-        serviceButton(
-          text: " اضافة خدمة ",
-          onTap: () {
-            print("========================");
-            print(FirebaseAuth.instance.currentUser!.uid);
-            Get.to(() => AddService());
-          },
+        Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: serviceButton(
+            text: " اضافة خدمة ",
+            onTap: () {
+              print("========================");
+              print(FirebaseAuth.instance.currentUser!.uid);
+              Get.to(() => AddService());
+            },
+          ),
         ),
         SizedBox(
           height: 10,
@@ -57,57 +61,52 @@ class _ShowServicesState extends State<ShowServices> {
             }
 
             return GridView.builder(
+                padding: EdgeInsets.all(10),
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  childAspectRatio: 7 / 8,
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10,
                   crossAxisCount: 2,
                 ),
                 itemCount: snapshot.data!.docs.length,
                 itemBuilder: (BuildContext context, int i) {
-                  return Container(
-                      padding: EdgeInsets.all(10),
-                      margin: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 100, 100, 98),
-                        border: Border.all(color: Colors.black, width: 4),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Column(
+                  return InkWell(
+                    onTap: () {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const serviceDetails()));
+                    },
+                    child: Container(
+                      child: Stack(
                         children: [
-                          Center(
-                            child: Text(
-                              "${snapshot.data!.docs[i]['name']}",
-                            ),
-                          ),
-                          SizedBox(
-                            height: 92,
-                          ),
+                          ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: Image.network(
+                                "${snapshot.data!.docs[i]["imageurl"]}",
+                                height: 250,
+                                width: 250,
+                                fit: BoxFit.cover,
+                              )),
                           Container(
-                            child: Row(
-                              children: [
-                                CircleAvatar(
-                                  backgroundColor: Colors.black,
-                                  child: IconButton(
-                                      onPressed: () {
-                                        Get.to(()=>EditService(ID_doc:snapshot.data!.docs[i].id,
-                                        data:snapshot.data!.docs[i]));
-                                        
-                                      }, icon: Icon(Icons.edit)),
-                                ),
-                                SizedBox(
-                                  width: 68,
-                                ),
-                                CircleAvatar(
-                                  backgroundColor: Colors.black,
-                                  child: IconButton(
-                                      onPressed: () {},
-                                      icon: Icon(Icons.delete)),
-                                ),
-                              ],
+                            padding: EdgeInsets.all(10),
+                            alignment: Alignment.center,
+                            child: Text(
+                              "${snapshot.data!.docs[i]["name"]}",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 25),
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.black.withOpacity(0.5),
+                              borderRadius: BorderRadius.circular(15),
                             ),
                           )
                         ],
-                      ));
+                      ),
+                    ),
+                  );
                 });
           },
         ),

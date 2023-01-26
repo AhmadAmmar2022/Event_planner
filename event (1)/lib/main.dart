@@ -4,6 +4,7 @@ import 'package:file_templeate/screen/chat_screen.dart';
 
 import 'package:file_templeate/screen/homePage/HomePage.dart';
 import 'package:file_templeate/screen/vender/service/AddService.dart';
+import 'package:file_templeate/screen/vender/service/Editservice.dart';
 import 'package:file_templeate/screen/vender/service/showservices.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -37,10 +38,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Signin(),
+      home: ShowServices(),
     );
   }
 }
