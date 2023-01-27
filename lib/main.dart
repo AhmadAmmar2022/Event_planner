@@ -1,8 +1,9 @@
 import 'package:file_templeate/Auth/signin.dart';
 import 'package:file_templeate/Auth/signup.dart';
 import 'package:file_templeate/screen/chat_screen.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+
 import 'package:file_templeate/screen/homePage/HomePage.dart';
+import 'package:file_templeate/screen/vender/packageservices/showPackage.dart';
 import 'package:file_templeate/screen/vender/service/AddService.dart';
 import 'package:file_templeate/screen/vender/service/Editservice.dart';
 import 'package:file_templeate/screen/vender/service/showservices.dart';
@@ -38,14 +39,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('ar', 'AE'), // English, no country code
-      ],
+      // localizationsDelegates: const [
+      //   GlobalMaterialLocalizations.delegate,
+      //   GlobalWidgetsLocalizations.delegate,
+      //   GlobalCupertinoLocalizations.delegate,
+      // ],
+      // supportedLocales: const [
+      //   Locale('ar', 'AE'), // English, no country code
+      // ],
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -66,7 +67,7 @@ class MyApp extends StatelessWidget {
               ),
             ),
       ),
-      home: ChatScreen(),
+      home: ShowPackage(),
     );
   }
 }
@@ -78,7 +79,7 @@ class splashscreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedSplashScreen(
       splash: Lottie.asset('images/1.json'),
-      backgroundColor: Color.fromARGB(255, 253, 253, 253),
+      backgroundColor: Color.fromRGBO(253, 253, 253, 1),
       splashIconSize: 1000,
       duration: 2000,
       nextScreen: islogin == true ? HomePage() : OnBording(),

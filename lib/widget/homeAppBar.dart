@@ -6,7 +6,7 @@ AppBar homeAppBar() {
     backgroundColor: Colors.blueAccent,
     elevation: 0,
     title: Text(
-      '  خدمات',
+      ' مجموعة الخدمات  ',
       style: GoogleFonts.getFont('Almarai'),
     ),
     leading: IconButton(

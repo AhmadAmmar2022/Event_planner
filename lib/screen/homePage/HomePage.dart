@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
             }
 
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Text("Loading");
+              return Text("Loading...");
             }
 
              return GridView.builder(

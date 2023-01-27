@@ -199,7 +199,6 @@ class _EditServiceState extends State<EditService> {
           "desc": desc.text.trim(),
           "salary": salary.text.trim(),
           "booking": isSwitched.toString(),
-      
           "user_id": FirebaseAuth.instance.currentUser!.uid.toString()
         }).then((value) {
           Get.to(() => ShowServices());

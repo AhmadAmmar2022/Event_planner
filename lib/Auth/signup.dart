@@ -233,7 +233,7 @@ class _SignUpState extends State<SignUp> {
         if (credential.user?.uid != null) {
           await FirebaseFirestore.instance.collection("Users").add({
             "username": userName,
-            "id": 1,
+            "id": credential.user?.uid,
             "type": typeuser,
             "status": "false",
           });
@@ -255,11 +255,12 @@ class _SignUpState extends State<SignUp> {
         isDismissible: true,
         forwardAnimationCurve: Curves.easeOutBack,
       );
-      if (typeuser == 'spnser') {
-        print('login');
-        Get.off(() => ChatScreen());
-      }
-      Get.off(() => HomePage());
+        Get.off(() => Signin());
+      // if (typeuser == 'spnser') {
+      //   print('login');
+      //   Get.off(() => ChatScreen());
+      // }
+      // Get.off(() => HomePage());
     }
   }
 }
