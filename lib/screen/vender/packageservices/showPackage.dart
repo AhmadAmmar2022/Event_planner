@@ -7,10 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../../widget/services/custom_button.dart';
 import 'AddPackage.dart';
 import 'ShowPackage.dart';
-
+import 'detailsPackage.dart';
 
 class ShowPackage extends StatefulWidget {
   const ShowPackage({super.key});
@@ -20,9 +21,13 @@ class ShowPackage extends StatefulWidget {
 }
 
 class _ShowPackageState extends State<ShowPackage> {
-  final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
+  final Stream<QuerySnapshot> _usersStreamPackage = FirebaseFirestore.instance
       .collection('PackageServices')
       .where("user_id", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+      .snapshots();
+  final Stream<QuerySnapshot> _usersStreamService = FirebaseFirestore.instance
+      .collection('Service')
+      .where("pack_id", isEqualTo: "0")
       .snapshots();
   @override
   Widget build(BuildContext context) {
@@ -34,9 +39,11 @@ class _ShowPackageState extends State<ShowPackage> {
           child: serviceButton(
             text: " اضافة خدمة ",
             onTap: () {
-              // print("========================");
-              // print(FirebaseAuth.instance.currentUser!.uid);
-              // // Get.to(() => AddPackage());
+              print("========================");
+              print(FirebaseAuth.instance.currentUser!.uid);
+              Get.to(() => Addservice(
+                    package_id: "0",
+                  ));
             },
           ),
         ),
@@ -46,40 +53,41 @@ class _ShowPackageState extends State<ShowPackage> {
         serviceButton(
           text: "  اضافة مجموعة من الخدمات  ",
           onTap: () {
-            Get.to(()=>AddPackage());
+            Get.to(() => AddPackage());
           },
         ),
         SizedBox(
           height: 25,
         ),
+        Text(
+          ' حزمة الخدمات ',
+          style: GoogleFonts.getFont('Almarai'),
+        ),
         SizedBox(
-        height: 200,
+          height: 200,
           child: StreamBuilder<QuerySnapshot>(
-            stream: _usersStream,
+            stream: _usersStreamPackage,
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.hasError) {
                 return Text('Something went wrong');
               }
-        
+
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: Text("Loading"));
+                return CircularProgressIndicator();
               }
-        
-              return  ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: snapshot.data!.docs.length,
-           padding: EdgeInsets.all(10),
+
+              return ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: snapshot.data!.docs.length,
                   itemBuilder: (BuildContext context, int i) {
                     return InkWell(
                       onTap: () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const serviceDetails()));
+                       Get.to(()=>PackageDetails(pack_id: "${snapshot.data!.docs[i]["Pack_id"]}" ,));
                       },
                       child: Container(
-                                margin: EdgeInsets.all(10),
+                      
+                        margin: EdgeInsets.all(10),
                         child: Stack(
                           children: [
                             ClipRRect(
@@ -91,12 +99,12 @@ class _ShowPackageState extends State<ShowPackage> {
                                   fit: BoxFit.cover,
                                 )),
                             Container(
-                              padding: EdgeInsets.all(10),
+                                padding: EdgeInsets.all(15),
                               alignment: Alignment.center,
                               child: Text(
                                 "${snapshot.data!.docs[i]["name"]}",
-                                style:
-                                    TextStyle(color: Colors.white, fontSize: 25),
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 25),
                               ),
                               decoration: BoxDecoration(
                                 color: Colors.black.withOpacity(0.5),
@@ -110,63 +118,64 @@ class _ShowPackageState extends State<ShowPackage> {
                   });
             },
           ),
-        ),  SizedBox(height: 20,),
-          SizedBox(
-        height: 200,
-           child: StreamBuilder<QuerySnapshot>(
-            stream: _usersStream,
+        ),
+        Text(
+          '  خدماتي ',
+          style: GoogleFonts.getFont('Almarai'),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        SizedBox(
+          height: 200,
+          child: StreamBuilder<QuerySnapshot>(
+            stream: _usersStreamService,
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.hasError) {
                 return Text('Something went wrong');
               }
-         
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: Text("Loading"));
-              }
-         
-              return ListView.builder(
-               padding: EdgeInsets.zero,
-              
-            scrollDirection: Axis.horizontal,
-            itemCount:  snapshot.data!.docs.length,
-            
-            itemBuilder: (context, index) {
-              return   Container(
-            
-                margin: EdgeInsets.all(10),
-                        child: Stack(
-                          children: [
-                            ClipRRect(
-                                borderRadius: BorderRadius.circular(15),
-                                child: Image.network(
-                                  "${snapshot.data!.docs[index]["imageurl"]}",
-                                  height: 250,
-                                  width: 250,
-                                  fit: BoxFit.cover,
-                                )),
-                            Container(
-                              padding: EdgeInsets.all(10),
-                              alignment: Alignment.center,
-                              child: Text(
-                                "${snapshot.data!.docs[index]["name"]}",
-                                style:
-                                    TextStyle(color: Colors.white, fontSize: 25),
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.black.withOpacity(0.5),
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                            )
-                          ],
-                        ),
-                      );
-            },
-                 );
-            },
-                 ),
-         )
 
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return CircularProgressIndicator();
+              }
+
+              return ListView.builder(
+               
+                scrollDirection: Axis.horizontal,
+                itemCount: snapshot.data!.docs.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    margin: EdgeInsets.all(10),
+                    child: Stack(
+                      children: [
+                        ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: Image.network(
+                              "${snapshot.data!.docs[index]["imageurl"]}",
+                              height: 250,
+                              width: 250,
+                              fit: BoxFit.cover,
+                            )),
+                        Container(
+                          alignment: Alignment.center,
+                          child: Text(
+                            "${snapshot.data!.docs[index]["name"]}",
+                            style: TextStyle(color: Colors.white, fontSize: 25),
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.5),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        )
       ]),
     );
   }

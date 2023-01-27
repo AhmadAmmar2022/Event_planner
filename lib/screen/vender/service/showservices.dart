@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_templeate/screen/vender/packageservices/AddPackage.dart';
 import 'package:file_templeate/screen/vender/service/AddService.dart';
 import 'package:file_templeate/screen/vender/service/serviceDetails.dart';
 import 'package:file_templeate/widget/homeAppBar.dart';
@@ -34,7 +35,7 @@ class _ShowServicesState extends State<ShowServices> {
             onTap: () {
               print("========================");
               print(FirebaseAuth.instance.currentUser!.uid);
-              Get.to(() => AddService());
+              Get.to(() => AddPackage());
             },
           ),
         ),

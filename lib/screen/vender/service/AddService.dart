@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_templeate/screen/vender/packageservices/showPackage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
@@ -16,18 +17,18 @@ import '../../../functions/function.dart';
 import '../../../widget/homeAppBar.dart';
 import '../../../widget/services/customTextFild.dart';
 import '../../../widget/services/custom_button.dart';
-import 'showservices.dart';
 
-class AddService extends StatefulWidget {
-  const AddService({super.key});
+class Addservice extends StatefulWidget {
+  final String package_id;
+  const Addservice({super.key, required this.package_id});
 
   @override
-  State<AddService> createState() => _AddServiceState();
+  State<Addservice> createState() => _AddserviceState();
 }
 
-class _AddServiceState extends State<AddService> {
+class _AddserviceState extends State<Addservice> {
   CollectionReference ref =
-      FirebaseFirestore.instance.collection("PackageServices");
+      FirebaseFirestore.instance.collection("Service");
   GlobalKey<FormState> formstate = new GlobalKey<FormState>();
   TextEditingController name = TextEditingController();
   TextEditingController desc = TextEditingController();
@@ -39,13 +40,6 @@ class _AddServiceState extends State<AddService> {
   var url;
   final imagePicker = ImagePicker();
   late File imageFile;
-
-  Future getImage() async {
-    var picked = await ImagePicker().getImage(source: ImageSource.gallery);
-    setState(() {
-      imageFile = File(picked!.path);
-    });
-  }
 
   @override
   void dispose() {
@@ -60,14 +54,14 @@ class _AddServiceState extends State<AddService> {
         backgroundColor: Colors.blueAccent,
         elevation: 0,
         title: Text(
-          '  خدمات',
+          'اضافة حزمة ',
           style: GoogleFonts.getFont('Almarai'),
         ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const ShowServices()));
+                MaterialPageRoute(builder: (context) => const ShowPackage()));
           },
         ),
         centerTitle: true,
@@ -135,24 +129,31 @@ class _AddServiceState extends State<AddService> {
                           color: Color.fromARGB(255, 213, 204, 204),
                         ),
                         child: myfile == null
-                            ? Column(
-                                children: [
-                                  serviceButton(
-                                      onTap: pickImage,
-                                      text: " اختيار الصورة من الكاميرا "),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  serviceButton(
-                                      onTap: () async {
-                                        await getImage();
-                                        print(imageFile);
-                                        // uploadImage();
-                                      },
-                                      text: " تحميل الصورة من الاستديو "),
-                                ],
+                            ? Text(
+                                '  لم يتم اختيار صورة  بعد ',
+                                style: GoogleFonts.getFont('Almarai'),
                               )
                             : Image.file(myfile!),
+                      ),  SizedBox(
+                        height: 5,
+                      ),
+                      serviceButton(
+                        text: "اختيار صورة من الكاميرا   ",
+                        onTap: () async {
+                          await pickImageFormCamira();
+                        },
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      serviceButton(
+                        text: "اختيار صورة من الاستوديو   ",
+                        onTap: () async {
+                          await pickImageFormGallary();
+                        },
+                      ),
+                      SizedBox(
+                        height: 20,
                       ),
                       // serviceButton(
                       //   text: "اختيار صورة   ",
@@ -178,9 +179,25 @@ class _AddServiceState extends State<AddService> {
     );
   }
 
-  Future pickImage() async {
+  Future pickImageFormCamira() async {
     try {
       XFile? xfile = await ImagePicker().pickImage(source: ImageSource.camera);
+      if (xfile != null) {
+        setState(() {
+          myfile = File(xfile.path);
+          imagename = basename(xfile.path);
+          print(imagename);
+        });
+      }
+    } on PlatformException catch (e) {
+      print("================================");
+      print(e);
+    }
+  }
+
+  Future pickImageFormGallary() async {
+    try {
+      XFile? xfile = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (xfile != null) {
         setState(() {
           myfile = File(xfile.path);
@@ -235,9 +252,10 @@ class _AddServiceState extends State<AddService> {
         "salary": salary.text.trim(),
         "booking": isSwitched.toString(),
         "imageurl": url.toString(),
-        "user_id": FirebaseAuth.instance.currentUser!.uid.toString()
+        "user_id": FirebaseAuth.instance.currentUser!.uid.toString(),
+        "pack_id":widget.package_id
       }).then((value) {
-        Get.to(() => ShowServices());
+        Get.to(() => ShowPackage());
       }).catchError((e) {
         print(e);
       });
@@ -245,81 +263,81 @@ class _AddServiceState extends State<AddService> {
   }
 }
 
-class showbuttomsheeet extends StatelessWidget {
-  const showbuttomsheeet({super.key});
+// class showbuttomsheeet extends StatelessWidget {
+//   const showbuttomsheeet({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      child: const Text('اختر صورة'),
-      onPressed: () {
-        Scaffold.of(context).showBottomSheet<void>(
-          (BuildContext context) {
-            return Container(
-              height: 170,
-              color: Color.fromARGB(80, 255, 255, 255),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Text(
-                    'اختر صورة',
-                    style: TextStyle(color: Colors.blue, fontSize: 25),
-                  ),
-                  InkWell(
-                      onTap: () async {
-                        var picked = await ImagePicker()
-                            .getImage(source: ImageSource.gallery);
-                      },
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.photo_outlined,
-                            color: Colors.grey,
-                            size: 30,
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            'من الاستديو',
-                            style: TextStyle(color: Colors.blue, fontSize: 20),
-                          ),
-                        ],
-                      )),
-                  InkWell(
-                      onTap: () async {
-                        var picked = await ImagePicker()
-                            .getImage(source: ImageSource.camera);
-                      },
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.camera,
-                            size: 30,
-                            color: Colors.grey,
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            'من الكاميرا',
-                            style: TextStyle(color: Colors.blue, fontSize: 20),
-                          ),
-                        ],
-                      )),
-                  ElevatedButton(
-                    child: const Text('موافق'),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                ],
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return ElevatedButton(
+//       child: const Text('اختر صورة'),
+//       onPressed: () {
+//         Scaffold.of(context).showBottomSheet<void>(
+//           (BuildContext context) {
+//             return Container(
+//               height: 170,
+//               color: Color.fromARGB(80, 255, 255, 255),
+//               child: Column(
+//                 mainAxisAlignment: MainAxisAlignment.start,
+//                 crossAxisAlignment: CrossAxisAlignment.stretch,
+//                 children: <Widget>[
+//                   Text(
+//                     'اختر صورة',
+//                     style: TextStyle(color: Colors.blue, fontSize: 25),
+//                   ),
+//                   InkWell(
+//                       onTap: () async {
+//                         var picked = await ImagePicker()
+//                             .getImage(source: ImageSource.gallery);
+//                       },
+//                       child: Row(
+//                         children: [
+//                           Icon(
+//                             Icons.photo_outlined,
+//                             color: Colors.grey,
+//                             size: 30,
+//                           ),
+//                           SizedBox(
+//                             width: 10,
+//                           ),
+//                           Text(
+//                             'من الاستديو',
+//                             style: TextStyle(color: Colors.blue, fontSize: 20),
+//                           ),
+//                         ],
+//                       )),
+//                   InkWell(
+//                       onTap: () async {
+//                         var picked = await ImagePicker()
+//                             .getImage(source: ImageSource.camera);
+//                       },
+//                       child: Row(
+//                         children: [
+//                           Icon(
+//                             Icons.camera,
+//                             size: 30,
+//                             color: Colors.grey,
+//                           ),
+//                           SizedBox(
+//                             width: 10,
+//                           ),
+//                           Text(
+//                             'من الكاميرا',
+//                             style: TextStyle(color: Colors.blue, fontSize: 20),
+//                           ),
+//                         ],
+//                       )),
+//                   ElevatedButton(
+//                     child: const Text('موافق'),
+//                     onPressed: () {
+//                       Navigator.pop(context);
+//                     },
+//                   ),
+//                 ],
+//               ),
+//             );
+//           },
+//         );
+//       },
+//     );
+//   }
+// }
