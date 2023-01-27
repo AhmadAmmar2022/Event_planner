@@ -7,6 +7,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../widget/services/custom_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class serviceDetails extends StatefulWidget {
   const serviceDetails({super.key});
@@ -16,6 +18,10 @@ class serviceDetails extends StatefulWidget {
 }
 
 class _serviceDetailsState extends State<serviceDetails> {
+  final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
+      .collection('PackageServices')
+      .where("user_id", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+      .snapshots();
   @override
   Widget build(BuildContext context) {
     return Scaffold(

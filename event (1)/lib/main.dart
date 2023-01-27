@@ -1,7 +1,7 @@
 import 'package:file_templeate/Auth/signin.dart';
 import 'package:file_templeate/Auth/signup.dart';
 import 'package:file_templeate/screen/chat_screen.dart';
-
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:file_templeate/screen/homePage/HomePage.dart';
 import 'package:file_templeate/screen/vender/service/AddService.dart';
 import 'package:file_templeate/screen/vender/service/Editservice.dart';
@@ -12,11 +12,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
-
 import 'OnBording/onPording.dart';
 
 late bool islogin;
 var user;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -38,11 +38,35 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('ar', 'AE'), // English, no country code
+      ],
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        accentColor: Colors.amber,
+        fontFamily: 'ElMessiri',
+        textTheme: ThemeData.light().textTheme.copyWith(
+              headline5: TextStyle(
+                color: Colors.blue,
+                fontSize: 24,
+                fontFamily: 'ElMessiri',
+                fontWeight: FontWeight.bold,
+              ),
+              headline6: TextStyle(
+                color: Colors.white,
+                fontSize: 26,
+                fontFamily: 'ElMessiri',
+                fontWeight: FontWeight.bold,
+              ),
+            ),
       ),
-      home: ShowServices(),
+      home: ChatScreen(),
     );
   }
 }

@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_templeate/Auth/signin.dart';
+import 'package:file_templeate/main.dart';
+import 'package:file_templeate/screen/chat_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../functions/function.dart';
 import '../screen/vender/service/showservices.dart';
 import '../style/app_colors.dart';
@@ -66,7 +67,6 @@ class _SignUpState extends State<SignUp> {
                     Form(
                         key: formstate,
                         child: Column(children: [
-                       
                           Container(
                             height: 125,
                             width: MediaQuery.of(context).size.width * 0.8,
@@ -79,7 +79,7 @@ class _SignUpState extends State<SignUp> {
                           ),
                           CustomFormField(
                             valu: (val) {
-                              return validate(val!, 10, 4);
+                              //  return validate(val!, 10, 4);
                             },
                             headingText: "اسم المستخدم",
                             hintText: "اسم المستخدم",
@@ -95,7 +95,7 @@ class _SignUpState extends State<SignUp> {
                           ),
                           CustomFormField(
                             valu: (val) {
-                              return validate(val!, 15, 10);
+                              //return validate(val!, 15, 10);
                             },
                             headingText: "البريد الالكتروني",
                             hintText: "البريد الالكتروني",
@@ -111,7 +111,7 @@ class _SignUpState extends State<SignUp> {
                           ),
                           CustomFormField(
                             valu: (val) {
-                              return validate(val!, 15, 8);
+                              //return validate(val!, 15, 8);
                             },
                             maxLines: 1,
                             textInputAction: TextInputAction.done,
@@ -229,37 +229,37 @@ class _SignUpState extends State<SignUp> {
         print(e);
       }
 
-           
-     try {
-         if (credential.user?.uid != null){
-        await FirebaseFirestore.instance.collection("Users").add({
-     "username":userName,
-     "id":1,
-     "type": typeuser,
-     "status":"false",
-   });
-  }
-} on FirebaseException catch (e) {
-   print(e);
-}
-      if (credential.user?.uid != null) {
-        Get.snackbar(
-          "welcome",
-          " Login completed successfully",
-          icon: Icon(Icons.person, color: Colors.white),
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Color.fromARGB(255, 31, 1, 101),
-          borderRadius: 20,
-          margin: EdgeInsets.all(15),
-          colorText: Colors.white,
-          duration: Duration(seconds: 4),
-          isDismissible: true,
-          forwardAnimationCurve: Curves.easeOutBack,
-        );
-        Get.off(() => ShowServices());
+      try {
+        if (credential.user?.uid != null) {
+          await FirebaseFirestore.instance.collection("Users").add({
+            "username": userName,
+            "id": 1,
+            "type": typeuser,
+            "status": "false",
+          });
+        }
+      } on FirebaseException catch (e) {
+        print(e);
       }
-    
+
+      Get.snackbar(
+        "welcome",
+        " Login completed successfully",
+        icon: Icon(Icons.person, color: Colors.white),
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Color.fromARGB(255, 31, 1, 101),
+        borderRadius: 20,
+        margin: EdgeInsets.all(15),
+        colorText: Colors.white,
+        duration: Duration(seconds: 4),
+        isDismissible: true,
+        forwardAnimationCurve: Curves.easeOutBack,
+      );
+      if (typeuser == 'spnser') {
+        print('login');
+        Get.off(() => ChatScreen());
+      }
+      Get.off(() => HomePage());
+    }
   }
 }
-}
-
