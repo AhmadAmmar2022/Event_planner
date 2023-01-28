@@ -19,8 +19,8 @@ import '../../../widget/services/customTextFild.dart';
 import '../../../widget/services/custom_button.dart';
 
 class Addservice extends StatefulWidget {
-  final String package_id;
-  const Addservice({super.key, required this.package_id});
+  final String serviec_id;
+  const Addservice({super.key, required this.serviec_id});
 
   @override
   State<Addservice> createState() => _AddserviceState();
@@ -253,7 +253,7 @@ class _AddserviceState extends State<Addservice> {
         "booking": isSwitched.toString(),
         "imageurl": url.toString(),
         "user_id": FirebaseAuth.instance.currentUser!.uid.toString(),
-        "pack_id":widget.package_id
+        "pack_id":widget.serviec_id
       }).then((value) {
         Get.to(() => ShowPackage());
       }).catchError((e) {

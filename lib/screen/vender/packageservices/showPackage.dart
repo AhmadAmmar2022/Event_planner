@@ -35,14 +35,14 @@ class _ShowPackageState extends State<ShowPackage> {
       appBar: homeAppBar(),
       body: Column(children: [
         Padding(
-          padding: const EdgeInsets.all(12.0),
+          padding: const EdgeInsets.all(6.0),
           child: serviceButton(
             text: " اضافة خدمة ",
             onTap: () {
               print("========================");
               print(FirebaseAuth.instance.currentUser!.uid);
               Get.to(() => Addservice(
-                    package_id: "0",
+                    serviec_id: "0",
                   ));
             },
           ),
@@ -57,7 +57,7 @@ class _ShowPackageState extends State<ShowPackage> {
           },
         ),
         SizedBox(
-          height: 25,
+          height: 10,
         ),
         Text(
           ' حزمة الخدمات ',
@@ -83,10 +83,11 @@ class _ShowPackageState extends State<ShowPackage> {
                   itemBuilder: (BuildContext context, int i) {
                     return InkWell(
                       onTap: () {
-                       Get.to(()=>PackageDetails(pack_id: "${snapshot.data!.docs[i]["Pack_id"]}" ,));
+                        Get.to(() => PackageDetails(
+                              data: snapshot.data!.docs[i],
+                            ));
                       },
                       child: Container(
-                      
                         margin: EdgeInsets.all(10),
                         child: Stack(
                           children: [
@@ -99,7 +100,7 @@ class _ShowPackageState extends State<ShowPackage> {
                                   fit: BoxFit.cover,
                                 )),
                             Container(
-                                padding: EdgeInsets.all(15),
+                              padding: EdgeInsets.all(15),
                               alignment: Alignment.center,
                               child: Text(
                                 "${snapshot.data!.docs[i]["name"]}",
@@ -118,7 +119,11 @@ class _ShowPackageState extends State<ShowPackage> {
                   });
             },
           ),
+          
+        ),  SizedBox(
+          height: 10,
         ),
+        
         Text(
           '  خدماتي ',
           style: GoogleFonts.getFont('Almarai'),
@@ -141,34 +146,42 @@ class _ShowPackageState extends State<ShowPackage> {
               }
 
               return ListView.builder(
-               
                 scrollDirection: Axis.horizontal,
                 itemCount: snapshot.data!.docs.length,
                 itemBuilder: (context, index) {
-                  return Container(
-                    margin: EdgeInsets.all(10),
-                    child: Stack(
-                      children: [
-                        ClipRRect(
-                            borderRadius: BorderRadius.circular(15),
-                            child: Image.network(
-                              "${snapshot.data!.docs[index]["imageurl"]}",
-                              height: 250,
-                              width: 250,
-                              fit: BoxFit.cover,
-                            )),
-                        Container(
-                          alignment: Alignment.center,
-                          child: Text(
-                            "${snapshot.data!.docs[index]["name"]}",
-                            style: TextStyle(color: Colors.white, fontSize: 25),
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.black.withOpacity(0.5),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                        )
-                      ],
+                  return InkWell(
+                    onTap: () {
+                      Get.to(() => SeviceDetails(
+                            data: snapshot.data!.docs[index],
+                            ID_Doc: snapshot.data!.docs[index].id
+                          ));
+                    },
+                    child: Container(
+                      margin: EdgeInsets.all(10),
+                      child: Stack(
+                        children: [
+                          ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: Image.network(
+                                "${snapshot.data!.docs[index]["imageurl"]}",
+                                height: 250,
+                                width: 250,
+                                fit: BoxFit.cover,
+                              )),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "${snapshot.data!.docs[index]["name"]}",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
+                            ),
+                            decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 3, 3, 3).withOpacity(0.5),
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   );
                 },

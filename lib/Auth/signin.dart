@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import '../functions/function.dart';
 
 import '../screen/homePage/HomePage.dart';
+import '../screen/vender/packageservices/ShowPackage.dart';
 import '../screen/vender/service/showservices.dart';
 import '../style/app_colors.dart';
 import '../widget/Auth/custom_button.dart';
@@ -185,7 +186,7 @@ class _SigninState extends State<Signin> {
           isDismissible: true,
           forwardAnimationCurve: Curves.easeOutBack,
         );
-        Get.off(() => ShowServices());
+        Get.off(() => ShowPackage());
       }
     }
   }

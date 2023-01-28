@@ -1,73 +1,146 @@
+
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PackageDetails extends StatefulWidget {
-  final String pack_id;
-  const PackageDetails({super.key, required this.pack_id});
+  final data  ;
+ 
+
+   PackageDetails({super.key, required this.data, });
 
   @override
   State<PackageDetails> createState() => _PackageDetailsState();
 }
 
 class _PackageDetailsState extends State<PackageDetails> {
-    var Pack_Id;
-    @override
+ late String name ;
+ late String desc ;
+ late String imageURl;
+ late String price;
+@override
   void initState() {
- //Pack_Id =widget.pack_id;
+ name=widget.data['name'].toString();
+ desc=widget.data['desc'].toString();
+ imageURl=widget.data['imageurl'].toString();
+ price=widget.data['salary'].toString();
+ print(name);
     super.initState();
   }
-   final Stream<QuerySnapshot> _usersStreamPackage = FirebaseFirestore.instance
-      .collection('PackageServices').where("pack_id",isEqualTo:50)
-      .where("user_id", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-      .snapshots();
+  
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(
-      '  تفاصيل الحزمة   ',
-      style: GoogleFonts.getFont('Almarai'),
-    ),),
-    body: Column(
-      children: [
-        StreamBuilder<QuerySnapshot>(
-          stream: _usersStreamPackage,
-          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (snapshot.hasError) {
-              return Text('Something went wrong');
-            }
+    final levelIndicator = Container(
+      child: Container(
+        child: LinearProgressIndicator(
+            backgroundColor: Color.fromRGBO(209, 224, 224, 0.2),
+            value: 10 ,
+            valueColor: AlwaysStoppedAnimation(Colors.green)),
+      ),
+    );
 
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Text("Loading...");
-            }
+    final coursePrice = Container(
+      padding: const EdgeInsets.all(7.0),
+      decoration: new BoxDecoration(
+          border: new Border.all(color: Colors.white),
+          borderRadius: BorderRadius.circular(5.0)),
+      child: new Text(
+        "\$" + price.toString(),
+        style: TextStyle(color: Colors.white),
+      ),
+    );
 
-             return GridView.builder(
-                        shrinkWrap: true,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                        ),
-                        itemCount: snapshot.data!.docs.length,
-                        itemBuilder: (BuildContext context, int i) {
-                          return Container(
-                            padding: EdgeInsets.all(10),
-                            margin: EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 80, 80, 80),
-                              border: Border.all(color: Colors.black, width: 4),
-                              borderRadius: BorderRadius.circular(8),
-                              
-                            ),
-                            child: Text(
-                              "${snapshot.data!.docs[i]['name']}",
-                            ),
-                          );
-                        });
-          },
+    final topContentText = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        SizedBox(height: 120.0),
+    
+        SizedBox(height: 10.0),
+        // Text(
+        // name,
+        //   style: TextStyle(color: Colors.white, fontSize: 45.0),
+        // ),
+        SizedBox(height: 30.0),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Expanded(flex: 1, child: levelIndicator),
+            // Expanded(
+            //     flex: 6,
+            //     child: Padding(
+            //         padding: EdgeInsets.only(left: 10.0),
+            //         child: Text(
+            //         name.toString(),
+            //           style: TextStyle(color: Colors.white),
+            //         ))),
+            Expanded(flex: 1, child: coursePrice)
+          ],
         ),
-    ]));
+      ],
+    );
+
+    final topContent = Stack(
+      children: <Widget>[
+        Container(
+            padding: EdgeInsets.only(left: 10.0),
+            height: MediaQuery.of(context).size.height * 0.5,
+            decoration: new BoxDecoration(
+              image: new DecorationImage(
+                image: new NetworkImage("$imageURl"),
+                fit: BoxFit.cover,
+              ),
+            )),
+    
+        Positioned(
+          left: 8.0,
+          top: 60.0,
+          child: InkWell(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Icon(Icons.arrow_back, color: Colors.white),
+          ),
+        )
+      ],
+    );
+
+    final bottomContentText = Column(
+      children: [
+        Text( "name :${name.toString()}",
+      style: TextStyle(fontSize: 18.0),),
+      SizedBox(height: 10,),
+         Text( "price :${price.toString()}",
+      style: TextStyle(fontSize: 18.0),)
+      
+      ],
+   
+    );
+    final readButton = Container(
+        padding: EdgeInsets.symmetric(vertical: 16.0),
+        width: MediaQuery.of(context).size.width,
+        child: MaterialButton(
+          onPressed: () => {},
+          color: Color.fromRGBO(58, 66, 86, 1.0),
+          child:
+              Text(" حجز كامل الخدمات ",   style: GoogleFonts.getFont('Almarai'),),
+        ));
+    final bottomContent = Container(
+      width: MediaQuery.of(context).size.width,
+      padding: EdgeInsets.all(40.0),
+      child: Center(
+        child: Column(
+          children: <Widget>[bottomContentText, readButton],
+        ),
+      ),
+    );
+
+    return Scaffold(
+      body: Column(
+    children: <Widget>[topContent, bottomContent],
+      ),
+    );
   }
 }

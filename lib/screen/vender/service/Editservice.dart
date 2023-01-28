@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:path/path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,6 +15,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../../functions/function.dart';
 import '../../../widget/services/customTextFild.dart';
 import '../../../widget/services/custom_button.dart';
+import '../packageservices/ShowPackage.dart';
 import 'showservices.dart';
 
 class EditService extends StatefulWidget {
@@ -27,29 +29,26 @@ class EditService extends StatefulWidget {
 
 class _EditServiceState extends State<EditService> {
   CollectionReference ref =
-      FirebaseFirestore.instance.collection("PackageServices");
+  FirebaseFirestore.instance.collection("Service");
   GlobalKey<FormState> formstate = new GlobalKey<FormState>();
   TextEditingController name = TextEditingController();
   TextEditingController desc = TextEditingController();
   TextEditingController salary = TextEditingController();
+
   bool isSwitched = true;
   var textValue = 'توجد امكانية للحجز ';
   File? myfile;
   var imagename;
   var url;
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-  }
-
+  
   @override
   void initState() {
-    
-     name:widget.data["name"].toString();
-     desc:widget.data["desc"].toString();
-   print(name);
+     name.text=widget.data["name"];
+     desc.text=widget.data["desc"];
+     salary.text=widget.data["salary"];
+     print("===================>");
+     print(desc.text);
+   
     super.initState();
   }
 
@@ -114,14 +113,20 @@ class _EditServiceState extends State<EditService> {
                         child: myfile == null
                             ? Text(
                                 "  قم باضافة صورة ",
-                                style: TextStyle(color: Colors.blue),
+                                style: GoogleFonts.getFont('Almarai'),
                               )
                             : Image.file(myfile!),
                       ),
                       serviceButton(
-                        text: "اختيار صورة   ",
+                        text: "اختيار صورةمن الكاميرا ",
                         onTap: () async {
                           await pickImage();
+                        },
+                      ),SizedBox(height: 10,),
+                          serviceButton(
+                        text: "اختيار صورة من الاستوديو   ",
+                        onTap: () async {
+                          await pickImageFormGallary();
                         },
                       ),
                       SizedBox(
@@ -157,21 +162,36 @@ class _EditServiceState extends State<EditService> {
       print(e);
     }
   }
-
-  Future uploadImage() async {
-    var rendom = Random().nextInt(1000);
-    imagename = "$rendom$imagename";
-    var imageref = FirebaseStorage.instance.ref("images/$imagename");
-
+   Future pickImageFormGallary() async {
     try {
-      await imageref.putFile(myfile!);
-      url = await imageref.getDownloadURL();
-      print(url.toString());
-    } on FirebaseException catch (e) {
+      XFile? xfile = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (xfile != null) {
+        setState(() {
+          myfile = File(xfile.path);
+          imagename = basename(xfile.path);
+          print(imagename);
+        });
+      }
+    } on PlatformException catch (e) {
+      print("================================");
       print(e);
     }
-    return url;
   }
+
+  // Future uploadImage() async {
+  //   var rendom = Random().nextInt(1000);
+  //   imagename = "$rendom$imagename";
+  //  var imageref = FirebaseStorage.instance.ref("images/$imagename");
+
+  //   try {
+  //     await imageref.putFile(myfile!);
+  //     url = await imageref.getDownloadURL();
+  //     print(url.toString());
+  //   } on FirebaseException catch (e) {
+  //     print(e);
+  //   }
+  //   return url;
+  // }
 
   void toggleSwitch(bool value) {
     if (isSwitched == false) {
@@ -190,36 +210,39 @@ class _EditServiceState extends State<EditService> {
   }
 
   edit() async {
-    if (formstate.currentState!.validate()) {
-      if (myfile != null) {
-        url = await uploadImage();
-
-       await  ref.doc("ID_doc").update({
+   
+      if (myfile == null) {
+       await  ref.doc(widget.ID_doc).update({
           "name": name.text.trim(),
           "desc": desc.text.trim(),
           "salary": salary.text.trim(),
           "booking": isSwitched.toString(),
-          "user_id": FirebaseAuth.instance.currentUser!.uid.toString()
+        
         }).then((value) {
-          Get.to(() => ShowServices());
+          Get.to(() => ShowPackage());
         }).catchError((e) {
           print(e);
         });
       }
-    } 
+    
     else {
-        ref.doc(widget.ID_doc).update({
+         var imageref = FirebaseStorage.instance.ref("images/$imagename");
+       await imageref.putFile(myfile!);
+       url = await imageref.getDownloadURL();
+          ref.doc(widget.ID_doc).update({
           "name": name.text.trim(),
           "desc": desc.text.trim(),
           "salary": salary.text.trim(),
+          "imageurl":url,
           "booking": isSwitched.toString(),
-          "user_id": FirebaseAuth.instance.currentUser!.uid.toString()
+     
         }).then((value) {
-          Get.to(() => ShowServices());
+          Get.to(() => ShowPackage());
         }).catchError((e) {
           print(e);
         });
-      }
+      
+    }
     }
   
 }
