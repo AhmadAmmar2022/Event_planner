@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:file_templeate/screen/homePage/HomePageSponsor.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -62,12 +63,20 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const HomePageSponsor()));
+            }),
         backgroundColor: Colors.blue,
         title: Row(
           children: [
-            Image.asset('images/logo.png', height: 25),
+            //Image.asset('images/logo.png', height: 25),
             SizedBox(width: 10),
-            Text('chat with aponsers')
+            Text('صفحة الدردشة')
           ],
         ),
         actions: [

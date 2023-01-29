@@ -1,10 +1,11 @@
+import 'package:file_templeate/main.dart';
 import 'package:file_templeate/screen/chat_screen.dart';
+import 'package:file_templeate/screen/homePage/HomePagePlanner.dart';
+import 'package:file_templeate/screen/homePage/HomePageSponsor.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../functions/function.dart';
-
 import '../screen/homePage/HomePage.dart';
 import '../screen/vender/packageservices/ShowPackage.dart';
 import '../screen/vender/service/showservices.dart';
@@ -186,7 +187,12 @@ class _SigninState extends State<Signin> {
           isDismissible: true,
           forwardAnimationCurve: Curves.easeOutBack,
         );
-        Get.off(() => ShowPackage());
+        // if (user == 'spnser') {
+        //   Get.off(() => ChatScreen());
+        // } else {
+        //   if (user == 'planner') Get.off(() => HomePagePlanner());
+        // }
+        Get.off(() => HomePage());
       }
     }
   }

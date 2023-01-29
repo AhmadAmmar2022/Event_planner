@@ -1,35 +1,39 @@
-
 import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_templeate/screen/homePage/HomePagePlanner.dart';
+import 'package:file_templeate/screen/vender/packageservices/showPackage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class PackageDetails extends StatefulWidget {
-  final data  ;
- 
+import '../../../Auth/signin.dart';
 
-   PackageDetails({super.key, required this.data, });
+class PackageDetails extends StatefulWidget {
+  final data;
+
+  PackageDetails({
+    super.key,
+    required this.data,
+  });
 
   @override
   State<PackageDetails> createState() => _PackageDetailsState();
 }
 
 class _PackageDetailsState extends State<PackageDetails> {
- late String name ;
- late String desc ;
- late String imageURl;
- late String price;
-@override
+  late String name;
+  late String desc;
+  late String imageURl;
+  late String price;
+  @override
   void initState() {
- name=widget.data['name'].toString();
- desc=widget.data['desc'].toString();
- imageURl=widget.data['imageurl'].toString();
- price=widget.data['salary'].toString();
- print(name);
+    name = widget.data['name'].toString();
+    desc = widget.data['desc'].toString();
+    imageURl = widget.data['imageurl'].toString();
+    price = widget.data['salary'].toString();
+    print(name);
     super.initState();
   }
-  
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +41,7 @@ class _PackageDetailsState extends State<PackageDetails> {
       child: Container(
         child: LinearProgressIndicator(
             backgroundColor: Color.fromRGBO(209, 224, 224, 0.2),
-            value: 10 ,
+            value: 10,
             valueColor: AlwaysStoppedAnimation(Colors.green)),
       ),
     );
@@ -57,7 +61,7 @@ class _PackageDetailsState extends State<PackageDetails> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         SizedBox(height: 120.0),
-    
+
         SizedBox(height: 10.0),
         // Text(
         // name,
@@ -93,7 +97,6 @@ class _PackageDetailsState extends State<PackageDetails> {
                 fit: BoxFit.cover,
               ),
             )),
-    
         Positioned(
           left: 8.0,
           top: 60.0,
@@ -109,14 +112,18 @@ class _PackageDetailsState extends State<PackageDetails> {
 
     final bottomContentText = Column(
       children: [
-        Text( "name :${name.toString()}",
-      style: TextStyle(fontSize: 18.0),),
-      SizedBox(height: 10,),
-         Text( "price :${price.toString()}",
-      style: TextStyle(fontSize: 18.0),)
-      
+        Text(
+          "name :${name.toString()}",
+          style: TextStyle(fontSize: 18.0),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Text(
+          "price :${price.toString()}",
+          style: TextStyle(fontSize: 18.0),
+        )
       ],
-   
     );
     final readButton = Container(
         padding: EdgeInsets.symmetric(vertical: 16.0),
@@ -124,8 +131,10 @@ class _PackageDetailsState extends State<PackageDetails> {
         child: MaterialButton(
           onPressed: () => {},
           color: Color.fromRGBO(58, 66, 86, 1.0),
-          child:
-              Text(" حجز كامل الخدمات ",   style: GoogleFonts.getFont('Almarai'),),
+          child: Text(
+            " حجز كامل الخدمات ",
+            style: GoogleFonts.getFont('Almarai'),
+          ),
         ));
     final bottomContent = Container(
       width: MediaQuery.of(context).size.width,
@@ -138,8 +147,31 @@ class _PackageDetailsState extends State<PackageDetails> {
     );
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const HomePagePlanner()));
+          },
+        ),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.close),
+            onPressed: () {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => const Signin()));
+            },
+          ),
+        ],
+      ),
       body: Column(
-    children: <Widget>[topContent, bottomContent],
+        children: <Widget>[topContent, bottomContent],
       ),
     );
   }

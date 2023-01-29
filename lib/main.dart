@@ -1,8 +1,8 @@
 import 'package:file_templeate/Auth/signin.dart';
 import 'package:file_templeate/Auth/signup.dart';
 import 'package:file_templeate/screen/chat_screen.dart';
-
 import 'package:file_templeate/screen/homePage/HomePage.dart';
+import 'package:file_templeate/screen/homePage/HomePagePlanner.dart';
 import 'package:file_templeate/screen/vender/packageservices/showPackage.dart';
 import 'package:file_templeate/screen/vender/service/AddService.dart';
 import 'package:file_templeate/screen/vender/service/Editservice.dart';
@@ -14,6 +14,7 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'OnBording/onPording.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 late bool islogin;
 var user;
@@ -30,6 +31,29 @@ void main() async {
   }
 
   runApp(const MyApp());
+
+  var fbm = FirebaseMessaging.instance;
+  fbm.getToken().then((token) {
+    print("""""" """""" """""" "this is the token" """""" """""" """""");
+    print(token);
+    print("***********************");
+  });
+//this is method used when the app id open forecore
+  FirebaseMessaging.onMessage.listen((event) {
+    print('---------------- data notification ---------------');
+// Navigator.pushReplacement(context,
+//                 MaterialPageRoute(builder: (context) => const ShowPackage()));
+
+    print("${event.notification!.body}");
+    print("--------------------------------------------------");
+  });
+
+//this is used when the app in backgroung mode
+  Future BackgroundMessage(RemoteMessage message) async {
+    print('*****************backgroung message***********');
+    print("${message.notification!.body}");
+    print('*****************background********************');
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -67,7 +91,7 @@ class MyApp extends StatelessWidget {
               ),
             ),
       ),
-      home: ShowPackage(),
+      home: HomePagePlanner(),
     );
   }
 }

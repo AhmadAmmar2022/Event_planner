@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_templeate/Auth/signin.dart';
 import 'package:file_templeate/main.dart';
 import 'package:file_templeate/screen/chat_screen.dart';
+import 'package:file_templeate/screen/homePage/HomePagePlanner.dart';
+import 'package:file_templeate/screen/homePage/HomePageSponsor.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -245,9 +247,9 @@ class _SignUpState extends State<SignUp> {
       Get.snackbar(
         "welcome",
         " Login completed successfully",
-        icon: Icon(Icons.person, color: Colors.white),
+        icon: Icon(Icons.person, color: Color.fromARGB(255, 255, 255, 255)),
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Color.fromARGB(255, 31, 1, 101),
+        backgroundColor: Color.fromARGB(28, 31, 1, 101),
         borderRadius: 20,
         margin: EdgeInsets.all(15),
         colorText: Colors.white,
@@ -255,7 +257,17 @@ class _SignUpState extends State<SignUp> {
         isDismissible: true,
         forwardAnimationCurve: Curves.easeOutBack,
       );
-        Get.off(() => Signin());
+      Get.off(() => Signin());
+      if (typeuser == 'spnser') {
+        print('login');
+        Get.off(() => HomePageSponsor());
+      } else {
+        if (typeuser == 'planner') {
+          Get.off(() => HomePagePlanner());
+        } else {
+          Get.off(() => HomePage());
+        }
+      }
       // if (typeuser == 'spnser') {
       //   print('login');
       //   Get.off(() => ChatScreen());
