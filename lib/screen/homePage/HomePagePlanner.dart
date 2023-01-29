@@ -27,7 +27,10 @@ class _HomePagePlannerState extends State<HomePagePlanner> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('this is Planner Homepage ')),
+      appBar: AppBar(
+        title: Text('planner page  '),
+        backgroundColor: Colors.black,
+      ),
       body: StreamBuilder<QuerySnapshot>(
         stream: _usersStreamPackage,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
