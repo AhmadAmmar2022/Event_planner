@@ -3,17 +3,20 @@ import 'dart:ffi';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_templeate/screen/homePage/HomePagePlanner.dart';
 import 'package:file_templeate/screen/vender/packageservices/showPackage.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../Auth/signin.dart';
+import 'EditePackage.dart';
 
 class PackageDetails extends StatefulWidget {
   final data;
-
+ final ID_doc;
   PackageDetails({
     super.key,
-    required this.data,
+    required this.data, this.ID_doc,
   });
 
   @override
@@ -21,6 +24,8 @@ class PackageDetails extends StatefulWidget {
 }
 
 class _PackageDetailsState extends State<PackageDetails> {
+   CollectionReference ref =
+  FirebaseFirestore.instance.collection("PackageServices");
   late String name;
   late String desc;
   late String imageURl;
@@ -125,17 +130,59 @@ class _PackageDetailsState extends State<PackageDetails> {
         )
       ],
     );
-    final readButton = Container(
-        padding: EdgeInsets.symmetric(vertical: 16.0),
-        width: MediaQuery.of(context).size.width,
-        child: MaterialButton(
-          onPressed: () => {},
-          color: Color.fromRGBO(58, 66, 86, 1.0),
-          child: Text(
-            " حجز كامل الخدمات ",
-            style: GoogleFonts.getFont('Almarai'),
-          ),
-        ));
+      final readButton = Column(
+      children: [
+        Container(
+            padding: EdgeInsets.symmetric(vertical: 5.0),
+            width: MediaQuery.of(context).size.width,
+            child: MaterialButton(
+              onPressed: () => {},
+              color: Color.fromRGBO(58, 66, 86, 1.0),
+              child:
+                  Text(" حجز خدمة  ",   style: GoogleFonts.getFont('Almarai'),),
+            )),
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 5.0),
+            width: MediaQuery.of(context).size.width,
+            child: MaterialButton(
+              onPressed: () => {},
+              color: Color.fromRGBO(58, 66, 86, 1.0),
+              child:
+                  Text("  تفعيل الحساب   ",   style: GoogleFonts.getFont('Almarai'),),
+            )),
+             Container(
+            padding: EdgeInsets.symmetric(vertical: 5.0),
+            width: MediaQuery.of(context).size.width,
+            child: MaterialButton(
+              onPressed: () => {
+                Get.to(()=>Editepackage(
+                  data: widget.data,
+                  ID_doc: widget.ID_doc,))
+              },
+              color: Colors.green,
+              child:
+                  Text(" تعديل الخدمة ",   style: GoogleFonts.getFont('Almarai'),),
+            )), Container(
+            padding: EdgeInsets.symmetric(vertical: 5.0),
+            width: MediaQuery.of(context).size.width,
+            child: MaterialButton(
+              onPressed: () async{
+
+               await ref.doc(widget.ID_doc).delete().then((value) {
+                Get.to(()=>ShowPackage());
+               
+
+               });
+               await FirebaseStorage.instance.refFromURL("${imageURl}").delete().then((value) {
+                             print("ok deleted................");
+               });
+              },
+              color: Colors.red,
+              child:
+                  Text(" حذف الخدمة  ",   style: GoogleFonts.getFont('Almarai'),),
+            ))
+      ],
+    );
     final bottomContent = Container(
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.all(40.0),
@@ -170,7 +217,7 @@ class _PackageDetailsState extends State<PackageDetails> {
           ),
         ],
       ),
-      body: Column(
+      body: ListView(
         children: <Widget>[topContent, bottomContent],
       ),
     );

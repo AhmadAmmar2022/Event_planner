@@ -65,7 +65,7 @@ class _HomePagePlannerState extends State<HomePagePlanner> {
                             child: Image.network(
                               "${snapshot.data!.docs[i]["imageurl"]}",
                               height: 250,
-                              width: 300,
+                              width: 400,
                               fit: BoxFit.cover,
                             )),
                         Container(
@@ -75,10 +75,7 @@ class _HomePagePlannerState extends State<HomePagePlanner> {
                             "${snapshot.data!.docs[i]["name"]}",
                             style: TextStyle(color: Colors.white, fontSize: 25),
                           ),
-                          decoration: BoxDecoration(
-                            color: Colors.black.withOpacity(0.3),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
+                       
                         )
                       ],
                     ),

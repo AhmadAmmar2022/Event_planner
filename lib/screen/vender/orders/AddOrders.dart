@@ -1,0 +1,114 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/container.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import '../../../functions/function.dart';
+import '../../../widget/services/customTextFild.dart';
+import '../../../widget/services/custom_button.dart';
+import '../packageservices/ShowPackage.dart';
+import '../service/serviceDetails.dart';
+
+class AddOrders extends StatefulWidget {
+  final ID_doc;
+  const AddOrders({super.key, this.ID_doc});
+
+  @override
+  State<AddOrders> createState() => _AddOrdersState();
+}
+
+class _AddOrdersState extends State<AddOrders> {
+
+   CollectionReference ref =
+      FirebaseFirestore.instance.collection("Orders");
+  GlobalKey<FormState> formstate = new GlobalKey<FormState>();
+  TextEditingController name = TextEditingController();
+  TextEditingController date = TextEditingController();
+  TextEditingController details = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(appBar: AppBar(  title: Text(
+      ' اضافة طلب    ',
+      style: GoogleFonts.getFont('Almarai'),
+    ),),
+    body:  ListView(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: Colors.blue, width: 4),
+              ),
+              // color: Color.fromARGB(255, 182, 132, 114),
+              padding: EdgeInsets.all(10),
+              child: Form(
+                  key: formstate,
+                  child: Column(
+                    children: [
+                      CustomTextFild(
+                        icon: Icon(Icons.person),
+                        hint:"الاسم ",
+                        controller: name,
+                        valu: (val) {
+                          return validate(val!, 25, 2);
+                        },
+                      ),
+                      CustomTextFild(
+                        icon: Icon(Icons.password),
+                        hint: " التاريخ  ",
+                        controller: date,
+                        valu: (val) {
+                          return validate(val!, 30, 2);
+                        },
+                      ),
+                      CustomTextFild(
+                        icon: Icon(Icons.email),
+                        hint: " تفاصيل الطلب   ",
+                        controller: details,
+                        valu: (val) {
+                          return validate(val!, 15, 1);
+                        },
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                     
+                      // serviceButton(
+                      //   text: "اختيار صورة   ",
+                      //   onTap: () async {
+                      //     await pickImage();
+                      //   },
+                      // ),
+                    
+                        serviceButton(
+                        text: "  اضافة طلب    ",
+                        onTap: () async {
+                          await Add();
+                        },
+                      ),
+                    ],
+                  )),
+            )
+          ],
+        ),);
+  }
+    Add() async {
+    if (formstate.currentState!.validate()) {
+        ref.add({
+        "user_id": FirebaseAuth.instance.currentUser!.uid.toString(),
+        "service_Id": widget.ID_doc,
+        "name":name.text.trim(),
+        "date": date.text.trim(),
+        "datails":details.text.trim(),
+        "status":"0"
+       
+      }).then((value) {
+        Get.to(() => ShowPackage());
+      }).catchError((e) {
+        print(e);
+      });
+    }
+  }
+}
