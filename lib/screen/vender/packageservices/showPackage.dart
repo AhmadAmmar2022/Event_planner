@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_templeate/main.dart';
 import 'package:file_templeate/screen/homePage/HomePage.dart';
 import 'package:file_templeate/screen/vender/service/AddService.dart';
 import 'package:file_templeate/screen/vender/service/serviceDetails.dart';
@@ -28,24 +29,29 @@ class _ShowPackageState extends State<ShowPackage> {
       .snapshots();
   final Stream<QuerySnapshot> _usersStreamService = FirebaseFirestore.instance
       .collection('Service')
-      .where("pack_id")
+      .where("user_id", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
       .snapshots();
   @override
   Widget build(BuildContext context) {
+    print("===========================");
+    print(sharedpref.getString("role"));
     return Scaffold(
       appBar: homeAppBar(),
       body: Column(children: [
         Padding(
           padding: const EdgeInsets.all(6.0),
-          child: serviceButton(
-            text: " اضافة خدمة ",
-            onTap: () {
-              print("========================");
-              print(FirebaseAuth.instance.currentUser!.uid);
-              Get.to(() => Addservice(
-                    serviec_id: "0",
-                  ));
-            },
+          child: Visibility(
+            visible:sharedpref.getString("rool") =='admin' ?false :true,
+            child: serviceButton(
+              text: " اضافة خدمة ",
+              onTap: () {
+                print("========================");
+                print(FirebaseAuth.instance.currentUser!.uid);
+                Get.to(() => Addservice(
+                      serviec_id: "0",
+                    ));
+              },
+            ),
           ),
         ),
         SizedBox(

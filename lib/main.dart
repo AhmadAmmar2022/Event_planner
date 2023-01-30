@@ -16,16 +16,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'OnBording/onPording.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 late bool islogin;
 var user;
-
+ late SharedPreferences sharedpref;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   user = FirebaseAuth.instance.currentUser;
+    sharedpref = await SharedPreferences.getInstance() ;
 
   if (user == null) {
     islogin = false;
@@ -94,7 +96,7 @@ class MyApp extends StatelessWidget {
               ),
             ),
       ),
-      home: ShowPackage(),
+      home: SignUp(),
     );
   }
 }
