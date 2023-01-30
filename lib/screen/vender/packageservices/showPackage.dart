@@ -12,7 +12,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../Auth/signin.dart';
 import '../../../widget/services/custom_button.dart';
 import 'AddPackage.dart';
-import 'ShowPackage.dart';
 import 'detailsPackage.dart';
 
 class ShowPackage extends StatefulWidget {
@@ -61,15 +60,18 @@ class _ShowPackageState extends State<ShowPackage> {
       body: Column(children: [
         Padding(
           padding: const EdgeInsets.all(6.0),
-          child: serviceButton(
-            text: " اضافة خدمة ",
-            onTap: () {
-              print("========================");
-              print(FirebaseAuth.instance.currentUser!.uid);
-              Get.to(() => Addservice(
-                    serviec_id: "0",
-                  ));
-            },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: serviceButton(
+              text: " اضافة خدمة ",
+              onTap: () {
+                print("========================");
+                print(FirebaseAuth.instance.currentUser!.uid);
+                Get.to(() => Addservice(
+                      serviec_id: "0",
+                    ));
+              },
+            ),
           ),
         ),
         SizedBox(

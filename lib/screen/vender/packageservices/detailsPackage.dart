@@ -25,6 +25,7 @@ class _PackageDetailsState extends State<PackageDetails> {
   late String desc;
   late String imageURl;
   late String price;
+
   @override
   void initState() {
     name = widget.data['name'].toString();
@@ -90,7 +91,7 @@ class _PackageDetailsState extends State<PackageDetails> {
       children: <Widget>[
         Container(
             padding: EdgeInsets.only(left: 10.0),
-            height: MediaQuery.of(context).size.height * 0.5,
+            height: MediaQuery.of(context).size.height * 0.4,
             decoration: new BoxDecoration(
               image: new DecorationImage(
                 image: new NetworkImage("$imageURl"),
@@ -113,14 +114,18 @@ class _PackageDetailsState extends State<PackageDetails> {
     final bottomContentText = Column(
       children: [
         Text(
-          "name :${name.toString()}",
+          "مجموعة الخدمة :${name.toString()}",
           style: TextStyle(fontSize: 18.0),
         ),
         SizedBox(
           height: 10,
         ),
         Text(
-          "price :${price.toString()}",
+          "التفاصيل :${desc.toString()}",
+          style: TextStyle(fontSize: 18.0),
+        ),
+        Text(
+          "السعر :${price.toString()}",
           style: TextStyle(fontSize: 18.0),
         )
       ],
@@ -130,10 +135,10 @@ class _PackageDetailsState extends State<PackageDetails> {
         width: MediaQuery.of(context).size.width,
         child: MaterialButton(
           onPressed: () => {},
-          color: Color.fromRGBO(58, 66, 86, 1.0),
+          color: Colors.black87,
           child: Text(
             " حجز كامل الخدمات ",
-            style: GoogleFonts.getFont('Almarai'),
+            style: TextStyle(color: Colors.white),
           ),
         ));
     final bottomContent = Container(

@@ -52,7 +52,7 @@ class _AddPackageState extends State<AddPackage> {
       appBar: AppBar(
         backgroundColor: Colors.black87,
         elevation: 0,
-        title: Text('اضافة حزمة '),
+        title: Text('اضافة مجموعة الخدمات '),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {

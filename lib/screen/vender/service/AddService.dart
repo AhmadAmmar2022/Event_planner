@@ -27,8 +27,7 @@ class Addservice extends StatefulWidget {
 }
 
 class _AddserviceState extends State<Addservice> {
-  CollectionReference ref =
-      FirebaseFirestore.instance.collection("Service");
+  CollectionReference ref = FirebaseFirestore.instance.collection("Service");
   GlobalKey<FormState> formstate = new GlobalKey<FormState>();
   TextEditingController name = TextEditingController();
   TextEditingController desc = TextEditingController();
@@ -51,12 +50,9 @@ class _AddserviceState extends State<Addservice> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Colors.black87,
         elevation: 0,
-        title: Text(
-          'اضافة حزمة ',
-          style: GoogleFonts.getFont('Almarai'),
-        ),
+        title: Text('اضافة خدمة '),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
@@ -80,7 +76,7 @@ class _AddserviceState extends State<Addservice> {
             Container(
               decoration: BoxDecoration(
                 color: Colors.white,
-                border: Border.all(color: Colors.blue, width: 4),
+                border: Border.all(color: Colors.black87, width: 2),
               ),
               // color: Color.fromARGB(255, 182, 132, 114),
               padding: EdgeInsets.all(10),
@@ -134,7 +130,8 @@ class _AddserviceState extends State<Addservice> {
                                 style: GoogleFonts.getFont('Almarai'),
                               )
                             : Image.file(myfile!),
-                      ),  SizedBox(
+                      ),
+                      SizedBox(
                         height: 5,
                       ),
                       serviceButton(
@@ -253,7 +250,7 @@ class _AddserviceState extends State<Addservice> {
         "booking": isSwitched.toString(),
         "imageurl": url.toString(),
         "user_id": FirebaseAuth.instance.currentUser!.uid.toString(),
-        "pack_id":widget.serviec_id
+        "pack_id": widget.serviec_id
       }).then((value) {
         Get.to(() => ShowPackage());
       }).catchError((e) {

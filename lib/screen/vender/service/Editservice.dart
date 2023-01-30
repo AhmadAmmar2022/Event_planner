@@ -28,8 +28,7 @@ class EditService extends StatefulWidget {
 }
 
 class _EditServiceState extends State<EditService> {
-  CollectionReference ref =
-  FirebaseFirestore.instance.collection("Service");
+  CollectionReference ref = FirebaseFirestore.instance.collection("Service");
   GlobalKey<FormState> formstate = new GlobalKey<FormState>();
   TextEditingController name = TextEditingController();
   TextEditingController desc = TextEditingController();
@@ -40,29 +39,32 @@ class _EditServiceState extends State<EditService> {
   File? myfile;
   var imagename;
   var url;
-  
+
   @override
   void initState() {
-     name.text=widget.data["name"];
-     desc.text=widget.data["desc"];
-     salary.text=widget.data["salary"];
-     print("===================>");
-     print(desc.text);
-   
+    name.text = widget.data["name"];
+    desc.text = widget.data["desc"];
+    salary.text = widget.data["salary"];
+    print("===================>");
+    print(desc.text);
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("تعديل خدمة ")),
+      appBar: AppBar(
+        title: Text("تعديل خدمة "),
+        backgroundColor: Colors.black87,
+      ),
       body: Container(
         child: ListView(
           children: [
             Container(
               decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 213, 204, 204),
-                  border: Border.all(color: Colors.orange, width: 4),
+                  color: Colors.white,
+                  border: Border.all(color: Colors.black87, width: 1),
                   borderRadius: BorderRadius.all(Radius.circular(20))),
               // color: Color.fromARGB(255, 182, 132, 114),
               padding: EdgeInsets.all(20),
@@ -122,8 +124,11 @@ class _EditServiceState extends State<EditService> {
                         onTap: () async {
                           await pickImage();
                         },
-                      ),SizedBox(height: 10,),
-                          serviceButton(
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      serviceButton(
                         text: "اختيار صورة من الاستوديو   ",
                         onTap: () async {
                           await pickImageFormGallary();
@@ -162,7 +167,8 @@ class _EditServiceState extends State<EditService> {
       print(e);
     }
   }
-   Future pickImageFormGallary() async {
+
+  Future pickImageFormGallary() async {
     try {
       XFile? xfile = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (xfile != null) {
@@ -210,39 +216,32 @@ class _EditServiceState extends State<EditService> {
   }
 
   edit() async {
-   
-      if (myfile == null) {
-       await  ref.doc(widget.ID_doc).update({
-          "name": name.text.trim(),
-          "desc": desc.text.trim(),
-          "salary": salary.text.trim(),
-          "booking": isSwitched.toString(),
-        
-        }).then((value) {
-          Get.to(() => ShowPackage());
-        }).catchError((e) {
-          print(e);
-        });
-      }
-    
-    else {
-         var imageref = FirebaseStorage.instance.ref("images/$imagename");
-       await imageref.putFile(myfile!);
-       url = await imageref.getDownloadURL();
-          ref.doc(widget.ID_doc).update({
-          "name": name.text.trim(),
-          "desc": desc.text.trim(),
-          "salary": salary.text.trim(),
-          "imageurl":url,
-          "booking": isSwitched.toString(),
-     
-        }).then((value) {
-          Get.to(() => ShowPackage());
-        }).catchError((e) {
-          print(e);
-        });
-      
+    if (myfile == null) {
+      await ref.doc(widget.ID_doc).update({
+        "name": name.text.trim(),
+        "desc": desc.text.trim(),
+        "salary": salary.text.trim(),
+        "booking": isSwitched.toString(),
+      }).then((value) {
+        Get.to(() => ShowPackage());
+      }).catchError((e) {
+        print(e);
+      });
+    } else {
+      var imageref = FirebaseStorage.instance.ref("images/$imagename");
+      await imageref.putFile(myfile!);
+      url = await imageref.getDownloadURL();
+      ref.doc(widget.ID_doc).update({
+        "name": name.text.trim(),
+        "desc": desc.text.trim(),
+        "salary": salary.text.trim(),
+        "imageurl": url,
+        "booking": isSwitched.toString(),
+      }).then((value) {
+        Get.to(() => ShowPackage());
+      }).catchError((e) {
+        print(e);
+      });
     }
-    }
-  
+  }
 }

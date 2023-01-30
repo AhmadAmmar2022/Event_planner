@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:file_templeate/Auth/signin.dart';
 import 'package:file_templeate/Auth/signup.dart';
 import 'package:file_templeate/screen/chat_screen.dart';
@@ -8,6 +9,7 @@ import 'package:file_templeate/screen/vender/packageservices/showPackage.dart';
 import 'package:file_templeate/screen/vender/service/AddService.dart';
 import 'package:file_templeate/screen/vender/service/Editservice.dart';
 import 'package:file_templeate/screen/vender/service/showservices.dart';
+import 'package:file_templeate/widget/slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -107,7 +109,7 @@ class splashscreen extends StatelessWidget {
       backgroundColor: Color.fromRGBO(253, 253, 253, 1),
       splashIconSize: 1000,
       duration: 2000,
-      nextScreen: islogin == true ? HomePage() : OnBording(),
+      nextScreen: islogin == true ? ShowPackage() : OnBording(),
       splashTransition: SplashTransition.slideTransition,
       animationDuration: Duration(seconds: 3),
     );
