@@ -27,7 +27,7 @@ class _ShowPackageState extends State<ShowPackage> {
       .snapshots();
   final Stream<QuerySnapshot> _usersStreamService = FirebaseFirestore.instance
       .collection('Service')
-      .where("pack_id", isEqualTo: "0")
+      .where("pack_id")
       .snapshots();
   @override
   Widget build(BuildContext context) {
