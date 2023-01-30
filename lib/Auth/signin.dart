@@ -43,7 +43,7 @@ class _SigninState extends State<Signin> {
             Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
-              color: AppColors.blue,
+              color: Colors.black87,
             ),
             CustomHeader(
               text: 'تسجيل الدخول',
@@ -129,7 +129,7 @@ class _SigninState extends State<Signin> {
                             child: Text(
                               "نسيت كلمة السر?",
                               style: TextStyle(
-                                  color: AppColors.blue.withOpacity(0.7),
+                                  color: Colors.blue.withOpacity(0.7),
                                   fontWeight: FontWeight.w500),
                             ),
                           ),

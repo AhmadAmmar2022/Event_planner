@@ -45,7 +45,7 @@ class _SignUpState extends State<SignUp> {
             Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
-              color: AppColors.blue,
+              color: Colors.black87,
             ),
             CustomHeader(
                 text: 'تسجيل حساب',

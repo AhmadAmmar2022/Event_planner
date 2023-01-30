@@ -13,10 +13,11 @@ import 'EditePackage.dart';
 
 class PackageDetails extends StatefulWidget {
   final data;
- final ID_doc;
+  final ID_doc;
   PackageDetails({
     super.key,
-    required this.data, this.ID_doc,
+    required this.data,
+    this.ID_doc,
   });
 
   @override
@@ -24,12 +25,13 @@ class PackageDetails extends StatefulWidget {
 }
 
 class _PackageDetailsState extends State<PackageDetails> {
-   CollectionReference ref =
-  FirebaseFirestore.instance.collection("PackageServices");
+  CollectionReference ref =
+      FirebaseFirestore.instance.collection("PackageServices");
   late String name;
   late String desc;
   late String imageURl;
   late String price;
+
   @override
   void initState() {
     name = widget.data['name'].toString();
@@ -95,7 +97,7 @@ class _PackageDetailsState extends State<PackageDetails> {
       children: <Widget>[
         Container(
             padding: EdgeInsets.only(left: 10.0),
-            height: MediaQuery.of(context).size.height * 0.5,
+            height: MediaQuery.of(context).size.height * 0.4,
             decoration: new BoxDecoration(
               image: new DecorationImage(
                 image: new NetworkImage("$imageURl"),
@@ -118,71 +120,33 @@ class _PackageDetailsState extends State<PackageDetails> {
     final bottomContentText = Column(
       children: [
         Text(
-          "name :${name.toString()}",
+          "مجموعة الخدمة :${name.toString()}",
           style: TextStyle(fontSize: 18.0),
         ),
         SizedBox(
           height: 10,
         ),
         Text(
-          "price :${price.toString()}",
+          "التفاصيل :${desc.toString()}",
+          style: TextStyle(fontSize: 18.0),
+        ),
+        Text(
+          "السعر :${price.toString()}",
           style: TextStyle(fontSize: 18.0),
         )
       ],
     );
-      final readButton = Column(
-      children: [
-        Container(
-            padding: EdgeInsets.symmetric(vertical: 5.0),
-            width: MediaQuery.of(context).size.width,
-            child: MaterialButton(
-              onPressed: () => {},
-              color: Color.fromRGBO(58, 66, 86, 1.0),
-              child:
-                  Text(" حجز خدمة  ",   style: GoogleFonts.getFont('Almarai'),),
-            )),
-          Container(
-            padding: EdgeInsets.symmetric(vertical: 5.0),
-            width: MediaQuery.of(context).size.width,
-            child: MaterialButton(
-              onPressed: () => {},
-              color: Color.fromRGBO(58, 66, 86, 1.0),
-              child:
-                  Text("  تفعيل الحساب   ",   style: GoogleFonts.getFont('Almarai'),),
-            )),
-             Container(
-            padding: EdgeInsets.symmetric(vertical: 5.0),
-            width: MediaQuery.of(context).size.width,
-            child: MaterialButton(
-              onPressed: () => {
-                Get.to(()=>Editepackage(
-                  data: widget.data,
-                  ID_doc: widget.ID_doc,))
-              },
-              color: Colors.green,
-              child:
-                  Text(" تعديل الخدمة ",   style: GoogleFonts.getFont('Almarai'),),
-            )), Container(
-            padding: EdgeInsets.symmetric(vertical: 5.0),
-            width: MediaQuery.of(context).size.width,
-            child: MaterialButton(
-              onPressed: () async{
-
-               await ref.doc(widget.ID_doc).delete().then((value) {
-                Get.to(()=>ShowPackage());
-               
-
-               });
-               await FirebaseStorage.instance.refFromURL("${imageURl}").delete().then((value) {
-                             print("ok deleted................");
-               });
-              },
-              color: Colors.red,
-              child:
-                  Text(" حذف الخدمة  ",   style: GoogleFonts.getFont('Almarai'),),
-            ))
-      ],
-    );
+    final readButton = Container(
+        padding: EdgeInsets.symmetric(vertical: 16.0),
+        width: MediaQuery.of(context).size.width,
+        child: MaterialButton(
+          onPressed: () => {},
+          color: Colors.black87,
+          child: Text(
+            " حجز كامل الخدمات ",
+            style: GoogleFonts.getFont('Almarai'),
+          ),
+        ));
     final bottomContent = Container(
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.all(40.0),
