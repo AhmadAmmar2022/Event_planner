@@ -50,12 +50,9 @@ class _AddPackageState extends State<AddPackage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Colors.black87,
         elevation: 0,
-        title: Text(
-          'اضافة حزمة ',
-          style: GoogleFonts.getFont('Almarai'),
-        ),
+        title: Text('اضافة حزمة '),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
@@ -130,7 +127,6 @@ class _AddPackageState extends State<AddPackage> {
                         child: myfile == null
                             ? Text(
                                 "  قم باضافة صورة ",
-                                
                               )
                             : Image.file(myfile!),
                       ),
@@ -139,10 +135,11 @@ class _AddPackageState extends State<AddPackage> {
                         onTap: () async {
                           await pickImageFormCamira();
                         },
-                      ), SizedBox(
+                      ),
+                      SizedBox(
                         height: 5,
                       ),
-                        serviceButton(
+                      serviceButton(
                         text: "اختيار صورة من الاستوديو   ",
                         onTap: () async {
                           await pickImageFormGallary();
@@ -193,8 +190,8 @@ class _AddPackageState extends State<AddPackage> {
 
   Future pickImageFormGallary() async {
     try {
-      XFile? xfile  =await ImagePicker().pickImage(source: ImageSource.gallery);
-       if (xfile != null) {
+      XFile? xfile = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (xfile != null) {
         setState(() {
           myfile = File(xfile.path);
           imagename = basename(xfile.path);

@@ -3,6 +3,7 @@ import 'package:file_templeate/Auth/signup.dart';
 import 'package:file_templeate/screen/chat_screen.dart';
 import 'package:file_templeate/screen/homePage/HomePage.dart';
 import 'package:file_templeate/screen/homePage/HomePagePlanner.dart';
+import 'package:file_templeate/screen/vender/packageservices/AddPackage.dart';
 import 'package:file_templeate/screen/vender/packageservices/showPackage.dart';
 import 'package:file_templeate/screen/vender/service/AddService.dart';
 import 'package:file_templeate/screen/vender/service/Editservice.dart';
@@ -91,7 +92,7 @@ class MyApp extends StatelessWidget {
               ),
             ),
       ),
-      home: HomePagePlanner(),
+      home: ShowPackage(),
     );
   }
 }

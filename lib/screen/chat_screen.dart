@@ -71,7 +71,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   MaterialPageRoute(
                       builder: (context) => const HomePageSponsor()));
             }),
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.black,
         title: Row(
           children: [
             //Image.asset('images/logo.png', height: 25),
@@ -102,7 +102,7 @@ class _ChatScreenState extends State<ChatScreen> {
               decoration: BoxDecoration(
                 border: Border(
                   top: BorderSide(
-                    color: Colors.blue,
+                    color: Colors.black,
                     width: 2,
                   ),
                 ),
@@ -136,9 +136,9 @@ class _ChatScreenState extends State<ChatScreen> {
                       });
                     },
                     child: Text(
-                      'send',
+                      'ارسال',
                       style: TextStyle(
-                        color: Colors.blue[800],
+                        color: Colors.black,
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
                       ),

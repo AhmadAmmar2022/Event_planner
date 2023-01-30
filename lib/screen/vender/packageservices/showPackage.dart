@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_templeate/screen/homePage/HomePage.dart';
 import 'package:file_templeate/screen/vender/service/AddService.dart';
 import 'package:file_templeate/screen/vender/service/serviceDetails.dart';
 import 'package:file_templeate/widget/homeAppBar.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../../Auth/signin.dart';
 import '../../../widget/services/custom_button.dart';
 import 'AddPackage.dart';
 import 'ShowPackage.dart';
@@ -32,7 +34,30 @@ class _ShowPackageState extends State<ShowPackage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: homeAppBar(),
+      appBar: AppBar(
+        backgroundColor: Colors.black87,
+        elevation: 0,
+        title: Text(
+          ' صفحة الخدمات   ',
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const HomePage()));
+          },
+        ),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.close),
+            onPressed: () {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => const Signin()));
+            },
+          ),
+        ],
+      ),
       body: Column(children: [
         Padding(
           padding: const EdgeInsets.all(6.0),
@@ -119,11 +144,10 @@ class _ShowPackageState extends State<ShowPackage> {
                   });
             },
           ),
-          
-        ),  SizedBox(
+        ),
+        SizedBox(
           height: 10,
         ),
-        
         Text(
           '  خدماتي ',
           style: GoogleFonts.getFont('Almarai'),
@@ -152,9 +176,8 @@ class _ShowPackageState extends State<ShowPackage> {
                   return InkWell(
                     onTap: () {
                       Get.to(() => SeviceDetails(
-                            data: snapshot.data!.docs[index],
-                            ID_Doc: snapshot.data!.docs[index].id
-                          ));
+                          data: snapshot.data!.docs[index],
+                          ID_Doc: snapshot.data!.docs[index].id));
                     },
                     child: Container(
                       margin: EdgeInsets.all(10),
@@ -176,7 +199,8 @@ class _ShowPackageState extends State<ShowPackage> {
                                   TextStyle(color: Colors.white, fontSize: 20),
                             ),
                             decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 3, 3, 3).withOpacity(0.5),
+                              color:
+                                  Color.fromARGB(255, 3, 3, 3).withOpacity(0.5),
                               borderRadius: BorderRadius.circular(15),
                             ),
                           )
