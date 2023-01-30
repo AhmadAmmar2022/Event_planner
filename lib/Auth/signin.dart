@@ -2,6 +2,7 @@ import 'package:file_templeate/main.dart';
 import 'package:file_templeate/screen/chat_screen.dart';
 import 'package:file_templeate/screen/homePage/HomePagePlanner.dart';
 import 'package:file_templeate/screen/homePage/HomePageSponsor.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -174,6 +175,9 @@ class _SigninState extends State<Signin> {
         }
       }
       if (credential.user!.uid != null) {
+        print("================================>");
+      if (credential.user!.uid != null) {
+        print(credential.user!.uid);
         Get.snackbar(
           "welcome",
           "Login completed successfully",
@@ -192,8 +196,9 @@ class _SigninState extends State<Signin> {
         // } else {
         //   if (user == 'planner') Get.off(() => HomePagePlanner());
         // }
-        Get.off(() => HomePage());
+        Get.to(() => ShowPackage());
       }
     }
   }
+}
 }

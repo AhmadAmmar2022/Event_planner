@@ -3,17 +3,21 @@ import 'dart:ffi';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_templeate/screen/homePage/HomePagePlanner.dart';
 import 'package:file_templeate/screen/vender/packageservices/showPackage.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../Auth/signin.dart';
+import 'EditePackage.dart';
 
 class PackageDetails extends StatefulWidget {
   final data;
-
+  final ID_doc;
   PackageDetails({
     super.key,
     required this.data,
+    this.ID_doc,
   });
 
   @override
@@ -21,6 +25,8 @@ class PackageDetails extends StatefulWidget {
 }
 
 class _PackageDetailsState extends State<PackageDetails> {
+  CollectionReference ref =
+      FirebaseFirestore.instance.collection("PackageServices");
   late String name;
   late String desc;
   late String imageURl;
@@ -138,7 +144,7 @@ class _PackageDetailsState extends State<PackageDetails> {
           color: Colors.black87,
           child: Text(
             " حجز كامل الخدمات ",
-            style: TextStyle(color: Colors.white),
+            style: GoogleFonts.getFont('Almarai'),
           ),
         ));
     final bottomContent = Container(
@@ -175,7 +181,7 @@ class _PackageDetailsState extends State<PackageDetails> {
           ),
         ],
       ),
-      body: Column(
+      body: ListView(
         children: <Widget>[topContent, bottomContent],
       ),
     );

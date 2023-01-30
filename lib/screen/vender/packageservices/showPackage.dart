@@ -33,45 +33,19 @@ class _ShowPackageState extends State<ShowPackage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black87,
-        elevation: 0,
-        title: Text(
-          ' صفحة الخدمات   ',
-        ),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const HomePage()));
-          },
-        ),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.close),
-            onPressed: () {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => const Signin()));
-            },
-          ),
-        ],
-      ),
+      appBar: homeAppBar(),
       body: Column(children: [
         Padding(
           padding: const EdgeInsets.all(6.0),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: serviceButton(
-              text: " اضافة خدمة ",
-              onTap: () {
-                print("========================");
-                print(FirebaseAuth.instance.currentUser!.uid);
-                Get.to(() => Addservice(
-                      serviec_id: "0",
-                    ));
-              },
-            ),
+          child: serviceButton(
+            text: " اضافة خدمة ",
+            onTap: () {
+              print("========================");
+              print(FirebaseAuth.instance.currentUser!.uid);
+              Get.to(() => Addservice(
+                    serviec_id: "0",
+                  ));
+            },
           ),
         ),
         SizedBox(
@@ -107,12 +81,12 @@ class _ShowPackageState extends State<ShowPackage> {
               return ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: snapshot.data!.docs.length,
-                  itemBuilder: (BuildContext context, int i) {
+                  itemBuilder: (context, index) {
                     return InkWell(
                       onTap: () {
-                        Get.to(() => PackageDetails(
-                              data: snapshot.data!.docs[i],
-                            ));
+                        Get.to(() => SeviceDetails(
+                            data: snapshot.data!.docs[index],
+                            ID_Doc: snapshot.data!.docs[index].id));
                       },
                       child: Container(
                         margin: EdgeInsets.all(10),
@@ -121,21 +95,21 @@ class _ShowPackageState extends State<ShowPackage> {
                             ClipRRect(
                                 borderRadius: BorderRadius.circular(15),
                                 child: Image.network(
-                                  "${snapshot.data!.docs[i]["imageurl"]}",
+                                  "${snapshot.data!.docs[index]["imageurl"]}",
                                   height: 250,
                                   width: 250,
                                   fit: BoxFit.cover,
                                 )),
                             Container(
-                              padding: EdgeInsets.all(15),
-                              alignment: Alignment.center,
+                              alignment: Alignment.centerLeft,
                               child: Text(
-                                "${snapshot.data!.docs[i]["name"]}",
+                                "${snapshot.data!.docs[index]["name"]}",
                                 style: TextStyle(
-                                    color: Colors.white, fontSize: 25),
+                                    color: Colors.white, fontSize: 20),
                               ),
                               decoration: BoxDecoration(
-                                color: Colors.black.withOpacity(0.5),
+                                color: Color.fromARGB(255, 3, 3, 3)
+                                    .withOpacity(0.5),
                                 borderRadius: BorderRadius.circular(15),
                               ),
                             )

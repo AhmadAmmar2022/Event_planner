@@ -2,23 +2,29 @@
 import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../orders/AddOrders.dart';
+import '../orders/showorder.dart';
+import '../packageservices/ShowPackage.dart';
 import 'Editservice.dart';
 
 class SeviceDetails extends StatefulWidget {
   final data  ;
   final ID_Doc;
 
-   SeviceDetails({super.key, required this.data, this.ID_Doc, });
+   SeviceDetails({super.key,  this.data, this.ID_Doc, });
 
   @override
   State<SeviceDetails> createState() => _SeviceDetailsState();
 }
 
 class _SeviceDetailsState extends State<SeviceDetails> {
+     CollectionReference ref =
+ FirebaseFirestore.instance.collection("Service");
  late String name ;
  late String desc ;
  late String imageURl;
@@ -32,8 +38,6 @@ class _SeviceDetailsState extends State<SeviceDetails> {
 
     super.initState();
   }
-  
-
   @override
   Widget build(BuildContext context) {
     final levelIndicator = Container(
@@ -127,7 +131,10 @@ class _SeviceDetailsState extends State<SeviceDetails> {
             padding: EdgeInsets.symmetric(vertical: 5.0),
             width: MediaQuery.of(context).size.width,
             child: MaterialButton(
-              onPressed: () => {},
+              onPressed: () => {
+                 Get.to(()=>AddOrders(
+                ID_doc: widget.ID_Doc,))
+              },
               color: Color.fromRGBO(58, 66, 86, 1.0),
               child:
                   Text(" حجز خدمة  ",   style: GoogleFonts.getFont('Almarai'),),
@@ -135,8 +142,18 @@ class _SeviceDetailsState extends State<SeviceDetails> {
             padding: EdgeInsets.symmetric(vertical: 5.0),
             width: MediaQuery.of(context).size.width,
             child: MaterialButton(
+              onPressed: () => {
+                 Get.to(()=>ShowOrder(ID_DOC:widget.ID_Doc))
+              },
+              color: Color.fromARGB(255, 133, 11, 82),
+              child:
+                  Text(" اضهار الطلبات   ",   style: GoogleFonts.getFont('Almarai'),),
+            )), Container(
+            padding: EdgeInsets.symmetric(vertical: 5.0),
+            width: MediaQuery.of(context).size.width,
+            child: MaterialButton(
               onPressed: () => {},
-              color: Color.fromRGBO(58, 66, 86, 1.0),
+              color: Color.fromARGB(255, 165, 168, 1),
               child:
                   Text("  تفعيل الحساب   ",   style: GoogleFonts.getFont('Almarai'),),
             )),
@@ -155,7 +172,17 @@ class _SeviceDetailsState extends State<SeviceDetails> {
             padding: EdgeInsets.symmetric(vertical: 5.0),
             width: MediaQuery.of(context).size.width,
             child: MaterialButton(
-              onPressed: () => {},
+                  onPressed: () async{
+
+               await ref.doc(widget.ID_Doc).delete().then((value) {
+                Get.to(()=>ShowPackage());
+               
+
+               });
+               await FirebaseStorage.instance.refFromURL("${imageURl}").delete().then((value) {
+                             print("ok deleted................");
+               });
+              },
               color: Colors.red,
               child:
                   Text(" حذف الخدمة  ",   style: GoogleFonts.getFont('Almarai'),),
