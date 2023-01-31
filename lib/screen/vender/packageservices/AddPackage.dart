@@ -238,7 +238,6 @@ class _AddPackageState extends State<AddPackage> {
   Add() async {
     if (formstate.currentState!.validate()) {
       url = await uploadImage();
-
       ref.add({
         "name": name.text.trim(),
         "desc": desc.text.trim(),

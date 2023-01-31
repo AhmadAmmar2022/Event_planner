@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_templeate/main.dart';
 import 'package:file_templeate/screen/homePage/HomePage.dart';
 import 'package:file_templeate/screen/vender/service/AddService.dart';
 import 'package:file_templeate/screen/vender/service/serviceDetails.dart';
@@ -28,10 +29,12 @@ class _ShowPackageState extends State<ShowPackage> {
       .snapshots();
   final Stream<QuerySnapshot> _usersStreamService = FirebaseFirestore.instance
       .collection('Service')
-      .where("pack_id", isEqualTo: "0")
+      .where("user_id", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
       .snapshots();
   @override
   Widget build(BuildContext context) {
+    print("===========================");
+    print(sharedpref.getString("role"));
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black87,
@@ -189,7 +192,7 @@ class _ShowPackageState extends State<ShowPackage> {
               );
             },
           ),
-        ),
+        )
         Padding(
           padding: const EdgeInsets.all(6.0),
           child: serviceButton(

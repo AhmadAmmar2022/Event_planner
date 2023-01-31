@@ -240,7 +240,7 @@ class _SeviceDetailsState extends State<SeviceDetails> {
     );
 
     return Scaffold(
-      body: Column(
+      body: ListView(
         children: <Widget>[topContent, bottomContent],
       ),
     );

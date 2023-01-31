@@ -4,6 +4,7 @@ import 'package:file_templeate/main.dart';
 import 'package:file_templeate/screen/chat_screen.dart';
 import 'package:file_templeate/screen/homePage/HomePagePlanner.dart';
 import 'package:file_templeate/screen/homePage/HomePageSponsor.dart';
+import 'package:file_templeate/screen/vender/packageservices/showPackage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -31,9 +32,16 @@ class _SignUpState extends State<SignUp> {
   String get userName => _userName.text.trim();
   String get email => _emailController.text.trim();
   String get password => _passwordController.text.trim();
+  final _auth = FirebaseAuth.instance;
   GlobalKey<FormState> formstate = new GlobalKey<FormState>();
   late UserCredential credential;
-  String typeuser = "";
+  String typeuser = "planner";
+   var options = [
+    'planner',
+    'vender',
+    'sponser'
+  ];
+  var _currentItemSelected = "planner";
   @override
   Widget build(BuildContext context) {
     bool visiable = true;
@@ -132,48 +140,89 @@ class _SignUpState extends State<SignUp> {
                           ),
                         ])),
                     const SizedBox(
-                      height: 5,
+                      height: 20,
                     ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "اختر نوع الحساب   ",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromARGB(255, 19, 0, 0),
+                              ),
+                            ),
+                            DropdownButton<String>(
+                              dropdownColor: Color.fromARGB(255, 55, 102, 173),
+                              isDense: true,
+                              isExpanded: false,
+                              iconEnabledColor: Color.fromARGB(255, 20, 1, 1),
+                              focusColor: Color.fromARGB(255, 17, 1, 1),
+                              items: options.map((String dropDownStringItem) {
+                                return DropdownMenuItem<String>(
+                                  value: dropDownStringItem,
+                                  child: Text(
+                                    dropDownStringItem,
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 124, 121, 121),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
+                              onChanged: (newValueSelected) {
+                                setState(() {
+                                  _currentItemSelected = newValueSelected!;
+                                  typeuser = newValueSelected;
+                                });
+                              },
+                              value: _currentItemSelected,
+                            ),
+                          ],
+                        ), 
 
-                    Text(
-                      "  اختر نوع الحساب",
-                      style: TextStyle(fontSize: 24),
-                    ),
-                    RadioListTile(
-                      value: "vender",
-                      groupValue: typeuser,
-                      onChanged: (val) {
-                        setState(() {
-                          typeuser = val!;
-                          print(typeuser);
-                        });
-                      },
-                      title: Text("مزود الخدمة"),
-                      subtitle: Text("providing service"),
-                    ),
-                    RadioListTile(
-                        value: "spnser",
-                        groupValue: typeuser,
-                        onChanged: (val) {
-                          setState(() {
-                            typeuser = val!;
-                            print(typeuser);
-                          });
-                        },
-                        title: Text("ممول الخدمة"),
-                        subtitle: Text("Service sponsor")),
-                    RadioListTile(
-                      value: "planner",
-                      groupValue: typeuser,
-                      onChanged: (val) {
-                        setState(() {
-                          typeuser = val!;
-                          print(typeuser);
-                        });
-                      },
-                      title: Text("مخطط الخدمة"),
-                      subtitle: Text("booking service"),
-                    ),
+                    // Text(
+                    //   "  اختر نوع الحساب",
+                    //   style: TextStyle(fontSize: 24),
+                    // ),
+                    // RadioListTile(
+                    //   value: "vender",
+                    //   groupValue: typeuser,
+                    //   onChanged: (val) {
+                    //     setState(() {
+                    //       typeuser = val!;
+                    //       print(typeuser);
+                    //     });
+                    //   },
+                    //   title: Text("مزود الخدمة"),
+                    //   subtitle: Text("providing service"),
+                    // ),
+                    // RadioListTile(
+                    //     value: "sponser",
+                    //     groupValue: typeuser,
+                    //     onChanged: (val) {
+                    //       setState(() {
+                    //         typeuser = val!;
+                    //         print(typeuser);
+                    //       });
+                    //     },
+                    //     title: Text("ممول الخدمة"),
+                    //     subtitle: Text("Service sponsor")),
+                    // RadioListTile(
+                    //   value: "planner",
+                    //   groupValue: typeuser,
+                    //   onChanged: (val) {
+                    //     setState(() {
+                    //       typeuser = val!;
+                    //       print(typeuser);
+                    //     });
+                    //   },
+                    //   title: Text("مخطط الخدمة"),
+                    //   subtitle: Text("booking service"),
+                    // ),
+                    SizedBox(height: 60,),
                     AuthButton(
                       onTap: () async {
                         await signUp();
@@ -214,13 +263,16 @@ class _SignUpState extends State<SignUp> {
   }
 
   signUp() async {
+    CircularProgressIndicator();
     if (formstate.currentState!.validate()) {
       try {
-        credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: email,
-          password: password,
-        );
-        print(credential);
+        await _auth
+            .createUserWithEmailAndPassword(
+              email: email,
+              password: password,
+            )
+            .then((value) => {postDetailsToFirestore(email, typeuser)});
+        print("==============================>");
       } on FirebaseAuthException catch (e) {
         if (e.code == 'weak-password') {
           print('The password provided is too weak.');
@@ -230,49 +282,15 @@ class _SignUpState extends State<SignUp> {
       } catch (e) {
         print(e);
       }
-
-      try {
-        if (credential.user?.uid != null) {
-          await FirebaseFirestore.instance.collection("Users").add({
-            "username": userName,
-            "id": credential.user?.uid,
-            "type": typeuser,
-            "status": "false",
-          });
-        }
-      } on FirebaseException catch (e) {
-        print(e);
-      }
-
-      Get.snackbar(
-        "welcome",
-        " Login completed successfully",
-        icon: Icon(Icons.person, color: Color.fromARGB(255, 255, 255, 255)),
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Color.fromARGB(28, 31, 1, 101),
-        borderRadius: 20,
-        margin: EdgeInsets.all(15),
-        colorText: Colors.white,
-        duration: Duration(seconds: 4),
-        isDismissible: true,
-        forwardAnimationCurve: Curves.easeOutBack,
-      );
-      Get.off(() => Signin());
-      if (typeuser == 'spnser') {
-        print('login');
-        Get.off(() => HomePageSponsor());
-      } else {
-        if (typeuser == 'planner') {
-          Get.off(() => HomePagePlanner());
-        } else {
-          Get.off(() => HomePage());
-        }
-      }
-      // if (typeuser == 'spnser') {
-      //   print('login');
-      //   Get.off(() => ChatScreen());
-      // }
-      // Get.off(() => HomePage());
     }
+  }
+
+  postDetailsToFirestore(String email, String typeuser) async {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    var user = _auth.currentUser;
+    CollectionReference ref = FirebaseFirestore.instance.collection('Users');
+    ref.doc(user!.uid).set({'email': email, 'role': typeuser, "status": "false","username":userName});
+    Get.to(() => Signin());
+    ;
   }
 }

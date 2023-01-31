@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_templeate/main.dart';
 import 'package:file_templeate/screen/chat_screen.dart';
 import 'package:file_templeate/screen/homePage/HomePagePlanner.dart';
@@ -167,6 +168,7 @@ class _SigninState extends State<Signin> {
       try {
         credential = await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: email, password: password);
+        route();
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
           print('No user found for that email.');
@@ -174,31 +176,33 @@ class _SigninState extends State<Signin> {
           print('Wrong password provided for that user.');
         }
       }
-      if (credential.user!.uid != null) {
-        print("================================>");
-      if (credential.user!.uid != null) {
-        print(credential.user!.uid);
-        Get.snackbar(
-          "welcome",
-          "Login completed successfully",
-          icon: Icon(Icons.person, color: Colors.white),
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Color.fromARGB(255, 23, 2, 107),
-          borderRadius: 20,
-          margin: EdgeInsets.all(15),
-          colorText: Colors.white,
-          duration: Duration(seconds: 4),
-          isDismissible: true,
-          forwardAnimationCurve: Curves.easeOutBack,
-        );
-        // if (user == 'spnser') {
-        //   Get.off(() => ChatScreen());
-        // } else {
-        //   if (user == 'planner') Get.off(() => HomePagePlanner());
-        // }
-        Get.to(() => ShowPackage());
-      }
     }
   }
-}
+
+  void route() {
+    User? user = FirebaseAuth.instance.currentUser;
+    var kk = FirebaseFirestore.instance
+        .collection('Users')
+        .doc(user!.uid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        if (documentSnapshot.get('role') == "vender") {
+          sharedpref.setString("role", "vender");
+          Get.to(() => ShowPackage());
+        } else if (documentSnapshot.get('rool') == "sponser") {
+          sharedpref.setString("role", "sponser");
+          Get.to(() => HomePageSponsor());
+        }
+      } else if(documentSnapshot.get('rool') == "planner"){
+         sharedpref.setString("role", "planner");
+        Get.to(() => HomePagePlanner());
+      } else {
+           
+        Get.to(() => ShowPackage());
+         sharedpref.setString("role", "admin");
+         
+      }
+    });
+  }
 }
