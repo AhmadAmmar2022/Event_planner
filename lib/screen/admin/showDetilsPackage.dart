@@ -9,22 +9,23 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../Auth/signin.dart';
-import 'EditePackage.dart';
+import '../homePage/BottomNavigationBar.dart';
+import 'showAllPackageAndService.dart';
 
-class PackageDetails extends StatefulWidget {
+class PackageDetailsForAdmin extends StatefulWidget {
   final data;
   final ID_doc;
-  PackageDetails({
+  PackageDetailsForAdmin({
     super.key,
     required this.data,
     this.ID_doc,
   });
 
   @override
-  State<PackageDetails> createState() => _PackageDetailsState();
+  State<PackageDetailsForAdmin> createState() => _PackageDetailsForAdminState();
 }
 
-class _PackageDetailsState extends State<PackageDetails> {
+class _PackageDetailsForAdminState extends State<PackageDetailsForAdmin> {
   CollectionReference ref =
       FirebaseFirestore.instance.collection("PackageServices");
   late String name;
@@ -140,11 +141,13 @@ class _PackageDetailsState extends State<PackageDetails> {
         padding: EdgeInsets.symmetric(vertical: 16.0),
         width: MediaQuery.of(context).size.width,
         child: MaterialButton(
-          onPressed: () => {},
-          color: Colors.black87,
-          child: Text(
-            " حجز كامل الخدمات ",
-          ),
+          textColor: Colors.white,
+          onPressed: () async {
+            await updataService();
+          },
+          color: Color.fromARGB(221, 77, 4, 4),
+          child: Text("  الموافقة على النشر  ",
+              style: GoogleFonts.getFont('Almarai')),
         ));
     final bottomContent = Container(
       width: MediaQuery.of(context).size.width,
@@ -163,7 +166,10 @@ class _PackageDetailsState extends State<PackageDetails> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-           
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const AdminRole()));
           },
         ),
         centerTitle: true,
@@ -181,5 +187,23 @@ class _PackageDetailsState extends State<PackageDetails> {
         children: <Widget>[topContent, bottomContent],
       ),
     );
+  }
+
+  updataService() async {
+    await ref.doc(widget.ID_doc).update({
+      "Publishing": "1",
+    }).then((value) {
+      Get.snackbar(
+        "تمت العملية بنجاح  ",
+        "تم الموفقة على النشر ",
+        colorText: Colors.white,
+        backgroundColor: Colors.lightBlue,
+        icon: const Icon(Icons.add_alert),
+      snackPosition:SnackPosition.BOTTOM
+      );
+      Get.to(() => AdminRole());
+    }).catchError((e) {
+      print(e);
+    });
   }
 }

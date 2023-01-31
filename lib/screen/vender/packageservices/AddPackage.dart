@@ -244,6 +244,7 @@ class _AddPackageState extends State<AddPackage> {
         "salary": salary.text.trim(),
         "booking": isSwitched.toString(),
         "imageurl": url.toString(),
+        "Publishing":"0",
         "user_id": FirebaseAuth.instance.currentUser!.uid.toString()
       }).then((value) {
         Get.to(() => ShowPackage());

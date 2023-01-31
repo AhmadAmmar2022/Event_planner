@@ -250,7 +250,8 @@ class _AddserviceState extends State<Addservice> {
         "booking": isSwitched.toString(),
         "imageurl": url.toString(),
         "user_id": FirebaseAuth.instance.currentUser!.uid.toString(),
-        "pack_id": widget.serviec_id
+        "pack_id": widget.serviec_id,
+        "Publishing":"0"
       }).then((value) {
         Get.to(() => ShowPackage());
       }).catchError((e) {

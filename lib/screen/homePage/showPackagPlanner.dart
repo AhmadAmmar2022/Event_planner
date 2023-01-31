@@ -14,21 +14,21 @@ import '../vender/packageservices/detailsPackage.dart';
 //import 'ShowPackage.dart';
 //import 'detailsPackage.dart';
 
-class HomePagePlanner extends StatefulWidget {
-  const HomePagePlanner({super.key});
+class HomePagePackage extends StatefulWidget {
+  const HomePagePackage({super.key});
 
   @override
-  State<HomePagePlanner> createState() => _HomePagePlannerState();
+  State<HomePagePackage> createState() => _HomePagePackageState();
 }
 
-class _HomePagePlannerState extends State<HomePagePlanner> {
+class _HomePagePackageState extends State<HomePagePackage> {
   final Stream<QuerySnapshot> _usersStreamPackage =
-      FirebaseFirestore.instance.collection('PackageServices').snapshots();
+      FirebaseFirestore.instance.collection('PackageServices').where("Publishing",isEqualTo: "1").snapshots();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('planner page  '),
+        title: Text(' مجموعة الخدمات '),
         backgroundColor: Colors.black,
       ),
       body: StreamBuilder<QuerySnapshot>(
@@ -40,21 +40,21 @@ class _HomePagePlannerState extends State<HomePagePlanner> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return CircularProgressIndicator();
           }
-          return ListView.builder(
-              // gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              //   childAspectRatio: 7 / 8,
-              //   mainAxisSpacing: 5,
-              //   crossAxisSpacing: 5,
-              //   crossAxisCount: 2,
-              // ),
+          return GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                childAspectRatio: 7 / 8,
+                mainAxisSpacing: 5,
+                crossAxisSpacing: 5,
+                crossAxisCount: 2,
+              ),
               scrollDirection: Axis.vertical,
               itemCount: snapshot.data!.docs.length,
               itemBuilder: (BuildContext context, int i) {
                 return InkWell(
                   onTap: () {
-                    Get.to(() => PackageDetails(
-                          data: snapshot.data!.docs[i],
-                        ));
+                    // Get.to(() => PackageDetails(
+                    //       data: snapshot.data!.docs[i],
+                    //     ));
                   },
                   child: Container(
                     margin: EdgeInsets.all(10),

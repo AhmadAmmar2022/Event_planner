@@ -1,9 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:file_templeate/Auth/signin.dart';
 import 'package:file_templeate/Auth/signup.dart';
+import 'package:file_templeate/screen/admin/showAllPackageAndService.dart';
 import 'package:file_templeate/screen/chat_screen.dart';
 import 'package:file_templeate/screen/homePage/HomePage.dart';
-import 'package:file_templeate/screen/homePage/HomePagePlanner.dart';
+import 'package:file_templeate/screen/homePage/showServicePlanner.dart';
 import 'package:file_templeate/screen/vender/packageservices/AddPackage.dart';
 import 'package:file_templeate/screen/vender/packageservices/detailsPackage.dart';
 import 'package:file_templeate/screen/vender/packageservices/showPackage.dart';
@@ -101,7 +102,7 @@ class MyApp extends StatelessWidget {
               ),
             ),
       ),
-      home: splashscreen(),
+      home:islogin == true ? AdminRole() : OnBording(),
     );
   }
 }

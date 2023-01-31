@@ -1,13 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_templeate/main.dart';
 import 'package:file_templeate/screen/chat_screen.dart';
-import 'package:file_templeate/screen/homePage/HomePagePlanner.dart';
+import 'package:file_templeate/screen/homePage/showServicePlanner.dart';
 import 'package:file_templeate/screen/homePage/HomePageSponsor.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../functions/function.dart';
+import '../screen/admin/showAllPackageAndService.dart';
+import '../screen/homePage/BottomNavigationBar.dart';
 import '../screen/homePage/HomePage.dart';
 import '../screen/vender/packageservices/ShowPackage.dart';
 import '../screen/vender/service/showservices.dart';
@@ -179,9 +181,9 @@ class _SigninState extends State<Signin> {
     }
   }
 
-  void route() {
-    User? user = FirebaseAuth.instance.currentUser;
-    var kk = FirebaseFirestore.instance
+  void route() async{
+    User? user = await FirebaseAuth.instance.currentUser;
+    var kk = await FirebaseFirestore.instance
         .collection('Users')
         .doc(user!.uid)
         .get()
@@ -190,19 +192,20 @@ class _SigninState extends State<Signin> {
         if (documentSnapshot.get('role') == "vender") {
           sharedpref.setString("role", "vender");
           Get.to(() => ShowPackage());
-        } else if (documentSnapshot.get('rool') == "sponser") {
+        } else if (documentSnapshot.get('role') == "sponser") {
           sharedpref.setString("role", "sponser");
           Get.to(() => HomePageSponsor());
         }
-      } else if(documentSnapshot.get('rool') == "planner"){
+       else if(documentSnapshot.get('role') == "planner"){
          sharedpref.setString("role", "planner");
-        Get.to(() => HomePagePlanner());
+        Get.to(() => BottomNavigation());
       } else {
-           
-        Get.to(() => ShowPackage());
+        Get.to(() => AdminRole());
          sharedpref.setString("role", "admin");
-         
       }
+      }else {
+        print("-------------------->");
+      } 
     });
   }
 }
