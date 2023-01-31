@@ -123,13 +123,20 @@ class _SeviceDetailsState extends State<SeviceDetails> {
         Text(
           "الاسم :${name.toString()}",
           style: TextStyle(fontSize: 18.0),
+          textDirection: TextDirection.rtl,
         ),
         SizedBox(
-          height: 10,
+          height: 5,
         ),
         Text(
           "السعر :${price.toString()}",
           style: TextStyle(fontSize: 18.0),
+          textDirection: TextDirection.rtl,
+        ),
+        Text(
+          "التفاصيل :${desc.toString()}",
+          style: TextStyle(fontSize: 18.0),
+          textDirection: TextDirection.rtl,
         )
       ],
     );
@@ -186,8 +193,8 @@ class _SeviceDetailsState extends State<SeviceDetails> {
             padding: EdgeInsets.symmetric(vertical: 5.0),
             width: MediaQuery.of(context).size.width,
             child: MaterialButton(
-              focusColor: Colors.red,
-              hoverColor: Colors.blue,
+              // focusColor: Colors.red,
+              //hoverColor: Colors.blue,
               onPressed: () => {
                 Get.to(() => EditService(
                       data: widget.data,

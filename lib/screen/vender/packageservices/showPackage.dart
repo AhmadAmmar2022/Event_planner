@@ -122,9 +122,9 @@ class _ShowPackageState extends State<ShowPackage> {
             },
           ),
         ),
-        SizedBox(
-          height: 10,
-        ),
+        // SizedBox(
+        //   height: 10,
+        // ),
         serviceButton(
           text: "  اضافة مجموعة من الخدمات  ",
           onTap: () {
@@ -192,9 +192,9 @@ class _ShowPackageState extends State<ShowPackage> {
               );
             },
           ),
-        )
+        ),
         Padding(
-          padding: const EdgeInsets.all(6.0),
+          padding: const EdgeInsets.all(12.0),
           child: serviceButton(
             text: " اضافة خدمة ",
             onTap: () {
