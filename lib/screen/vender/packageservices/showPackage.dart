@@ -33,39 +33,36 @@ class _ShowPackageState extends State<ShowPackage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: homeAppBar(),
-      body: Column(children: [
-        Padding(
-          padding: const EdgeInsets.all(6.0),
-          child: serviceButton(
-            text: " اضافة خدمة ",
-            onTap: () {
-              print("========================");
-              print(FirebaseAuth.instance.currentUser!.uid);
-              Get.to(() => Addservice(
-                    serviec_id: "0",
-                  ));
-            },
-          ),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        serviceButton(
-          text: "  اضافة مجموعة من الخدمات  ",
-          onTap: () {
-            Get.to(() => AddPackage());
+      appBar: AppBar(
+        backgroundColor: Colors.black87,
+        elevation: 0,
+        title: Text('الخدمات '),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const ShowPackage()));
           },
         ),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.close),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      ),
+      body: Column(children: [
+        // Padding(
+        //   padding: const EdgeInsets.all(8.0),
+        //   child: Text(
+        //     ' مجموعة الخدمات ',
+        //   ),
+        // ),
         SizedBox(
-          height: 10,
-        ),
-        Text(
-          ' حزمة الخدمات ',
-          style: GoogleFonts.getFont('Almarai'),
-        ),
-        SizedBox(
-          height: 200,
+          height: MediaQuery.of(context).size.height * 0.4,
           child: StreamBuilder<QuerySnapshot>(
             stream: _usersStreamPackage,
             builder:
@@ -101,6 +98,7 @@ class _ShowPackageState extends State<ShowPackage> {
                                   fit: BoxFit.cover,
                                 )),
                             Container(
+                              height: 250,
                               alignment: Alignment.centerLeft,
                               child: Text(
                                 "${snapshot.data!.docs[index]["name"]}",
@@ -112,7 +110,7 @@ class _ShowPackageState extends State<ShowPackage> {
                                     .withOpacity(0.5),
                                 borderRadius: BorderRadius.circular(15),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -124,15 +122,17 @@ class _ShowPackageState extends State<ShowPackage> {
         SizedBox(
           height: 10,
         ),
-        Text(
-          '  خدماتي ',
-          style: GoogleFonts.getFont('Almarai'),
+        serviceButton(
+          text: "  اضافة مجموعة من الخدمات  ",
+          onTap: () {
+            Get.to(() => AddPackage());
+          },
         ),
         SizedBox(
-          height: 20,
+          height: 10,
         ),
         SizedBox(
-          height: 200,
+          height: MediaQuery.of(context).size.height * 0.3,
           child: StreamBuilder<QuerySnapshot>(
             stream: _usersStreamService,
             builder:
@@ -169,6 +169,7 @@ class _ShowPackageState extends State<ShowPackage> {
                               )),
                           Container(
                             alignment: Alignment.centerLeft,
+                            height: 250,
                             child: Text(
                               "${snapshot.data!.docs[index]["name"]}",
                               style:
@@ -188,7 +189,20 @@ class _ShowPackageState extends State<ShowPackage> {
               );
             },
           ),
-        )
+        ),
+        Padding(
+          padding: const EdgeInsets.all(6.0),
+          child: serviceButton(
+            text: " اضافة خدمة ",
+            onTap: () {
+              print("========================");
+              print(FirebaseAuth.instance.currentUser!.uid);
+              Get.to(() => Addservice(
+                    serviec_id: "0",
+                  ));
+            },
+          ),
+        ),
       ]),
     );
   }

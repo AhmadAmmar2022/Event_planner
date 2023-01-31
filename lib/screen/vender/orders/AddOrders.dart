@@ -21,89 +21,106 @@ class AddOrders extends StatefulWidget {
 }
 
 class _AddOrdersState extends State<AddOrders> {
-
-   CollectionReference ref =
-      FirebaseFirestore.instance.collection("Orders");
+  CollectionReference ref = FirebaseFirestore.instance.collection("Orders");
   GlobalKey<FormState> formstate = new GlobalKey<FormState>();
   TextEditingController name = TextEditingController();
   TextEditingController date = TextEditingController();
   TextEditingController details = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(  title: Text(
-      ' اضافة طلب    ',
-      style: GoogleFonts.getFont('Almarai'),
-    ),),
-    body:  ListView(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(color: Colors.blue, width: 4),
-              ),
-              // color: Color.fromARGB(255, 182, 132, 114),
-              padding: EdgeInsets.all(10),
-              child: Form(
-                  key: formstate,
-                  child: Column(
-                    children: [
-                      CustomTextFild(
-                        icon: Icon(Icons.person),
-                        hint:"الاسم ",
-                        controller: name,
-                        valu: (val) {
-                          return validate(val!, 25, 2);
-                        },
-                      ),
-                      CustomTextFild(
-                        icon: Icon(Icons.password),
-                        hint: " التاريخ  ",
-                        controller: date,
-                        valu: (val) {
-                          return validate(val!, 30, 2);
-                        },
-                      ),
-                      CustomTextFild(
-                        icon: Icon(Icons.email),
-                        hint: " تفاصيل الطلب   ",
-                        controller: details,
-                        valu: (val) {
-                          return validate(val!, 15, 1);
-                        },
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                     
-                      // serviceButton(
-                      //   text: "اختيار صورة   ",
-                      //   onTap: () async {
-                      //     await pickImage();
-                      //   },
-                      // ),
-                    
-                        serviceButton(
-                        text: "  اضافة طلب    ",
-                        onTap: () async {
-                          await Add();
-                        },
-                      ),
-                    ],
-                  )),
-            )
-          ],
-        ),);
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.black87,
+        elevation: 0,
+        title: Text('إضافة الطلب '),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const ShowPackage()));
+          },
+        ),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.close),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      ),
+      body: ListView(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: Colors.blue, width: 4),
+            ),
+            // color: Color.fromARGB(255, 182, 132, 114),
+            padding: EdgeInsets.all(10),
+            child: Form(
+                key: formstate,
+                child: Column(
+                  children: [
+                    CustomTextFild(
+                      icon: Icon(Icons.person),
+                      hint: "الاسم ",
+                      controller: name,
+                      valu: (val) {
+                        return validate(val!, 25, 2);
+                      },
+                    ),
+                    CustomTextFild(
+                      icon: Icon(Icons.password),
+                      hint: " التاريخ  ",
+                      controller: date,
+                      valu: (val) {
+                        return validate(val!, 30, 2);
+                      },
+                    ),
+                    CustomTextFild(
+                      icon: Icon(Icons.email),
+                      hint: " تفاصيل الطلب   ",
+                      controller: details,
+                      valu: (val) {
+                        return validate(val!, 15, 1);
+                      },
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+
+                    // serviceButton(
+                    //   text: "اختيار صورة   ",
+                    //   onTap: () async {
+                    //     await pickImage();
+                    //   },
+                    // ),
+
+                    serviceButton(
+                      text: "  اضافة طلب    ",
+                      onTap: () async {
+                        await Add();
+                      },
+                    ),
+                  ],
+                )),
+          )
+        ],
+      ),
+    );
   }
-    Add() async {
+
+  Add() async {
     if (formstate.currentState!.validate()) {
-        ref.add({
+      ref.add({
         "user_id": FirebaseAuth.instance.currentUser!.uid.toString(),
         "service_Id": widget.ID_doc,
-        "name":name.text.trim(),
+        "name": name.text.trim(),
         "date": date.text.trim(),
-        "datails":details.text.trim(),
-        "status":"0"
-       
+        "datails": details.text.trim(),
+        "status": "0"
       }).then((value) {
         Get.to(() => ShowPackage());
       }).catchError((e) {

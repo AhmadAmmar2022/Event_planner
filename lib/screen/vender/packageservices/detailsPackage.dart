@@ -144,7 +144,6 @@ class _PackageDetailsState extends State<PackageDetails> {
           color: Colors.black87,
           child: Text(
             " حجز كامل الخدمات ",
-            style: GoogleFonts.getFont('Almarai'),
           ),
         ));
     final bottomContent = Container(

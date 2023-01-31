@@ -5,6 +5,7 @@ import 'package:file_templeate/screen/chat_screen.dart';
 import 'package:file_templeate/screen/homePage/HomePage.dart';
 import 'package:file_templeate/screen/homePage/HomePagePlanner.dart';
 import 'package:file_templeate/screen/vender/packageservices/AddPackage.dart';
+import 'package:file_templeate/screen/vender/packageservices/detailsPackage.dart';
 import 'package:file_templeate/screen/vender/packageservices/showPackage.dart';
 import 'package:file_templeate/screen/vender/service/AddService.dart';
 import 'package:file_templeate/screen/vender/service/Editservice.dart';
@@ -13,11 +14,14 @@ import 'package:file_templeate/widget/slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'OnBording/onPording.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:localization/localization.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 late bool islogin;
 var user;
@@ -66,14 +70,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      // localizationsDelegates: const [
+      // localizationsDelegates: [
       //   GlobalMaterialLocalizations.delegate,
       //   GlobalWidgetsLocalizations.delegate,
       //   GlobalCupertinoLocalizations.delegate,
       // ],
-      // supportedLocales: const [
-      //   Locale('ar', 'AE'), // English, no country code
+      // supportedLocales: [
+      //   const Locale('ar', 'AE'), // English, no country code
       // ],
+      locale: Get.deviceLocale,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -94,7 +99,7 @@ class MyApp extends StatelessWidget {
               ),
             ),
       ),
-      home: HomePagePlanner(),
+      home: splashscreen(),
     );
   }
 }
@@ -109,7 +114,7 @@ class splashscreen extends StatelessWidget {
       backgroundColor: Color.fromRGBO(253, 253, 253, 1),
       splashIconSize: 200,
       duration: 200,
-      nextScreen: islogin == true ? HomePage() : OnBording(),
+      nextScreen: islogin == true ? ShowPackage() : OnBording(),
       splashTransition: SplashTransition.slideTransition,
       animationDuration: Duration(seconds: 3),
     );

@@ -158,7 +158,7 @@ class _AddPackageState extends State<AddPackage> {
                         height: 10,
                       ),
                       serviceButton(
-                        text: "  اضافة الخدمة   ",
+                        text: "  اضافة المجموعة   ",
                         onTap: () async {
                           await Add();
                         },

@@ -1,3 +1,4 @@
+// ignore_for_file: prefer_const_constructors
 
 import 'dart:ffi';
 
@@ -13,38 +14,42 @@ import '../packageservices/ShowPackage.dart';
 import 'Editservice.dart';
 
 class SeviceDetails extends StatefulWidget {
-  final data  ;
+  final data;
   final ID_Doc;
 
-   SeviceDetails({super.key,  this.data, this.ID_Doc, });
+  SeviceDetails({
+    super.key,
+    this.data,
+    this.ID_Doc,
+  });
 
   @override
   State<SeviceDetails> createState() => _SeviceDetailsState();
 }
 
 class _SeviceDetailsState extends State<SeviceDetails> {
-     CollectionReference ref =
- FirebaseFirestore.instance.collection("Service");
- late String name ;
- late String desc ;
- late String imageURl;
- late String price;
-@override
+  CollectionReference ref = FirebaseFirestore.instance.collection("Service");
+  late String name;
+  late String desc;
+  late String imageURl;
+  late String price;
+  @override
   void initState() {
- name=widget.data['name'].toString();
- desc=widget.data['desc'].toString();
- imageURl=widget.data['imageurl'].toString();
- price=widget.data['salary'].toString();
+    name = widget.data['name'].toString();
+    desc = widget.data['desc'].toString();
+    imageURl = widget.data['imageurl'].toString();
+    price = widget.data['salary'].toString();
 
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     final levelIndicator = Container(
       child: Container(
         child: LinearProgressIndicator(
             backgroundColor: Color.fromRGBO(209, 224, 224, 0.2),
-            value: 10 ,
+            value: 10,
             valueColor: AlwaysStoppedAnimation(Colors.green)),
       ),
     );
@@ -64,7 +69,7 @@ class _SeviceDetailsState extends State<SeviceDetails> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         SizedBox(height: 120.0),
-    
+
         SizedBox(height: 10.0),
         // Text(
         // name,
@@ -93,14 +98,13 @@ class _SeviceDetailsState extends State<SeviceDetails> {
       children: <Widget>[
         Container(
             padding: EdgeInsets.only(left: 10.0),
-            height: MediaQuery.of(context).size.height * 0.5,
+            height: MediaQuery.of(context).size.height * 0.4,
             decoration: new BoxDecoration(
               image: new DecorationImage(
                 image: new NetworkImage("$imageURl"),
                 fit: BoxFit.cover,
               ),
             )),
-    
         Positioned(
           left: 8.0,
           top: 60.0,
@@ -116,14 +120,18 @@ class _SeviceDetailsState extends State<SeviceDetails> {
 
     final bottomContentText = Column(
       children: [
-         Text( "name :${name.toString()}",
-         style: TextStyle(fontSize: 18.0),),
-         SizedBox(height: 10,),
-          Text( "price :${price.toString()}",
-         style: TextStyle(fontSize: 18.0),)
-      
+        Text(
+          "الاسم :${name.toString()}",
+          style: TextStyle(fontSize: 18.0),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Text(
+          "السعر :${price.toString()}",
+          style: TextStyle(fontSize: 18.0),
+        )
       ],
-   
     );
     final readButton = Column(
       children: [
@@ -132,60 +140,92 @@ class _SeviceDetailsState extends State<SeviceDetails> {
             width: MediaQuery.of(context).size.width,
             child: MaterialButton(
               onPressed: () => {
-                 Get.to(()=>AddOrders(
-                ID_doc: widget.ID_Doc,))
+                Get.to(() => AddOrders(
+                      ID_doc: widget.ID_Doc,
+                    ))
               },
-              color: Color.fromRGBO(58, 66, 86, 1.0),
-              child:
-                  Text(" حجز خدمة  ",   style: GoogleFonts.getFont('Almarai'),),
-            )), Container(
+              color: Colors.black,
+              child: Text(
+                " حجز خدمة  ",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15),
+              ),
+            )),
+        Container(
             padding: EdgeInsets.symmetric(vertical: 5.0),
             width: MediaQuery.of(context).size.width,
             child: MaterialButton(
-              onPressed: () => {
-                 Get.to(()=>ShowOrder(ID_DOC:widget.ID_Doc))
-              },
-              color: Color.fromARGB(255, 133, 11, 82),
-              child:
-                  Text(" اضهار الطلبات   ",   style: GoogleFonts.getFont('Almarai'),),
-            )), Container(
+              onPressed: () => {Get.to(() => ShowOrder(ID_DOC: widget.ID_Doc))},
+              color: Colors.black87,
+              hoverColor: Colors.blue,
+              child: Text(
+                " اظهار الطلبات   ",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15),
+              ),
+            )),
+        Container(
             padding: EdgeInsets.symmetric(vertical: 5.0),
             width: MediaQuery.of(context).size.width,
             child: MaterialButton(
               onPressed: () => {},
-              color: Color.fromARGB(255, 165, 168, 1),
-              child:
-                  Text("  تفعيل الحساب   ",   style: GoogleFonts.getFont('Almarai'),),
+              color: Colors.black87,
+              child: Text(
+                "  تفعيل الحساب   ",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15),
+              ),
             )),
-             Container(
+        Container(
             padding: EdgeInsets.symmetric(vertical: 5.0),
             width: MediaQuery.of(context).size.width,
             child: MaterialButton(
+              focusColor: Colors.red,
+              hoverColor: Colors.blue,
               onPressed: () => {
-                Get.to(()=>EditService(data: widget.data,
-                ID_doc: widget.ID_Doc,))
+                Get.to(() => EditService(
+                      data: widget.data,
+                      ID_doc: widget.ID_Doc,
+                    ))
               },
-              color: Colors.green,
-              child:
-                  Text(" تعديل الخدمة ",   style: GoogleFonts.getFont('Almarai'),),
-            )), Container(
+              color: Colors.black87,
+              child: Text(
+                " تعديل الخدمة ",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15),
+              ),
+            )),
+        Container(
             padding: EdgeInsets.symmetric(vertical: 5.0),
             width: MediaQuery.of(context).size.width,
             child: MaterialButton(
-                  onPressed: () async{
-
-               await ref.doc(widget.ID_Doc).delete().then((value) {
-                Get.to(()=>ShowPackage());
-               
-
-               });
-               await FirebaseStorage.instance.refFromURL("${imageURl}").delete().then((value) {
-                             print("ok deleted................");
-               });
+              onPressed: () async {
+                await ref.doc(widget.ID_Doc).delete().then((value) {
+                  Get.to(() => ShowPackage());
+                });
+                await FirebaseStorage.instance
+                    .refFromURL("${imageURl}")
+                    .delete()
+                    .then((value) {
+                  print("ok deleted................");
+                });
               },
-              color: Colors.red,
-              child:
-                  Text(" حذف الخدمة  ",   style: GoogleFonts.getFont('Almarai'),),
+              color: Colors.black87,
+              child: Text(
+                " حذف الخدمة  ",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15),
+              ),
             ))
       ],
     );
@@ -201,7 +241,7 @@ class _SeviceDetailsState extends State<SeviceDetails> {
 
     return Scaffold(
       body: Column(
-    children: <Widget>[topContent, bottomContent],
+        children: <Widget>[topContent, bottomContent],
       ),
     );
   }
