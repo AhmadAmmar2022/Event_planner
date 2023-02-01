@@ -1,4 +1,4 @@
-import 'package:carousel_slider/carousel_slider.dart';
+//import 'package:carousel_slider/carousel_slider.dart';
 import 'package:file_templeate/Auth/signin.dart';
 import 'package:file_templeate/Auth/signup.dart';
 import 'package:file_templeate/screen/admin/showAllPackageAndService.dart';
@@ -11,6 +11,7 @@ import 'package:file_templeate/screen/vender/packageservices/showPackage.dart';
 import 'package:file_templeate/screen/vender/service/AddService.dart';
 import 'package:file_templeate/screen/vender/service/Editservice.dart';
 import 'package:file_templeate/screen/vender/service/showservices.dart';
+import 'package:file_templeate/widget/comment.dart';
 import 'package:file_templeate/widget/slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -24,6 +25,9 @@ import 'OnBording/onPording.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:localization/localization.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:comment_box/comment/comment.dart';
+import 'package:comment_box/comment/test.dart';
+import 'package:comment_box/main.dart';
 
 late bool islogin;
 var user;
@@ -102,7 +106,8 @@ class MyApp extends StatelessWidget {
               ),
             ),
       ),
-      home:islogin == true ? AdminRole() : OnBording(),
+      home: splashscreen(),
+      //islogin == true ? AdminRole() : OnBording(),
     );
   }
 }
@@ -117,7 +122,7 @@ class splashscreen extends StatelessWidget {
       backgroundColor: Color.fromRGBO(253, 253, 253, 1),
       splashIconSize: 200,
       duration: 200,
-      nextScreen: islogin == true ? ShowPackage() : OnBording(),
+      nextScreen: islogin == true ? comment() : OnBording(),
       splashTransition: SplashTransition.slideTransition,
       animationDuration: Duration(seconds: 3),
     );
