@@ -3,6 +3,7 @@
 import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -28,6 +29,8 @@ class DetailsServiceForUser extends StatefulWidget {
 
 class _DetailsServiceForUserState extends State<DetailsServiceForUser> {
   CollectionReference ref = FirebaseFirestore.instance.collection("Service");
+  CollectionReference refFavorite = FirebaseFirestore.instance.collection("Favorites");
+  bool isPressed=false;
   late String name;
   late String desc;
   late String imageURl;
@@ -141,6 +144,24 @@ class _DetailsServiceForUserState extends State<DetailsServiceForUser> {
     );
     final readButton = Column(
       children: [
+         Container(
+            padding: EdgeInsets.symmetric(vertical: 5.0),
+            width: MediaQuery.of(context).size.width,
+            child: IconButton(
+              color: Colors.red,
+                onPressed: () async{
+                         setState(() {  
+                  isPressed=!isPressed;
+                         });
+                 if (isPressed==true){
+                    await  addTOFavorite();
+                 }
+                 else {
+
+                 }
+                   
+                    },
+                icon: isPressed ==false ? Icon(Icons.favorite_border_outlined):Icon(Icons.favorite))),
         Container(
             padding: EdgeInsets.symmetric(vertical: 5.0),
             width: MediaQuery.of(context).size.width,
@@ -178,5 +199,24 @@ class _DetailsServiceForUserState extends State<DetailsServiceForUser> {
         children: <Widget>[topContent, bottomContent],
       ),
     );
+  }
+   addTOFavorite() async{
+     refFavorite.add({
+        "name": name,
+        "desc": desc,
+        "salary": price,
+        "booking": "true",
+        "imageurl": imageURl,
+        "Publishing":"1",
+        "user_id": FirebaseAuth.instance.currentUser!.uid.toString()
+      }).then((value) {
+       Get.snackbar("تمت العملية بنجاح  ", " ",
+          colorText: Colors.white,
+          backgroundColor: Colors.lightBlue,
+          icon: const Icon(Icons.add_alert),
+          snackPosition: SnackPosition.BOTTOM);
+      }).catchError((e) {
+        print(e);
+      });
   }
 }
