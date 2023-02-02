@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_templeate/main.dart';
 import 'package:file_templeate/screen/chat_screen.dart';
-import 'package:file_templeate/screen/homePage/showServicePlanner.dart';
+import 'package:file_templeate/screen/homePage/show/showServicePlanner.dart';
 import 'package:file_templeate/screen/homePage/HomePageSponsor.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';

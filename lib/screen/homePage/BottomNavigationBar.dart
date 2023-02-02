@@ -1,6 +1,6 @@
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
-import 'package:file_templeate/screen/homePage/showServicePlanner.dart';
-import 'package:file_templeate/screen/homePage/showPackagPlanner.dart';
+import 'package:file_templeate/screen/homePage/show/showServicePlanner.dart';
+import 'package:file_templeate/screen/homePage/show/showPackagPlanner.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

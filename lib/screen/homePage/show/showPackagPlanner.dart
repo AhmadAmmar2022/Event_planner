@@ -8,8 +8,9 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../widget/services/custom_button.dart';
-import '../vender/packageservices/detailsPackage.dart';
+import '../../../../widget/services/custom_button.dart';
+import '../../vender/packageservices/detailsPackage.dart';
+import '../details/detailsForUser.dart';
 //import 'AddPackage.dart';
 //import 'ShowPackage.dart';
 //import 'detailsPackage.dart';
@@ -23,7 +24,7 @@ class HomePagePackage extends StatefulWidget {
 
 class _HomePagePackageState extends State<HomePagePackage> {
   final Stream<QuerySnapshot> _usersStreamPackage =
-      FirebaseFirestore.instance.collection('PackageServices').where("Publishing",isEqualTo: "1").snapshots();
+      FirebaseFirestore.instance.collection('PackageServices').snapshots();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,9 +53,10 @@ class _HomePagePackageState extends State<HomePagePackage> {
               itemBuilder: (BuildContext context, int i) {
                 return InkWell(
                   onTap: () {
-                    // Get.to(() => PackageDetails(
-                    //       data: snapshot.data!.docs[i],
-                    //     ));
+                    Get.to(() => DetailsForUser(
+                          ID_Doc:snapshot.data!.docs[i],
+                          data: snapshot.data!.docs[i],
+                        ));
                   },
                   child: Container(
                     margin: EdgeInsets.all(10),

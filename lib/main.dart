@@ -4,7 +4,7 @@ import 'package:file_templeate/Auth/signup.dart';
 import 'package:file_templeate/screen/admin/showAllPackageAndService.dart';
 import 'package:file_templeate/screen/chat_screen.dart';
 import 'package:file_templeate/screen/homePage/HomePage.dart';
-import 'package:file_templeate/screen/homePage/showServicePlanner.dart';
+import 'package:file_templeate/screen/homePage/show/showServicePlanner.dart';
 import 'package:file_templeate/screen/vender/packageservices/AddPackage.dart';
 import 'package:file_templeate/screen/vender/packageservices/detailsPackage.dart';
 import 'package:file_templeate/screen/vender/packageservices/showPackage.dart';
@@ -122,7 +122,7 @@ class splashscreen extends StatelessWidget {
       backgroundColor: Color.fromRGBO(253, 253, 253, 1),
       splashIconSize: 200,
       duration: 200,
-      nextScreen: islogin == true ? comment() : OnBording(),
+      nextScreen: islogin == true ? AdminRole() : Signin(),
       splashTransition: SplashTransition.slideTransition,
       animationDuration: Duration(seconds: 3),
     );

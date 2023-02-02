@@ -8,8 +8,9 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../widget/services/custom_button.dart';
-import '../vender/packageservices/detailsPackage.dart';
+import '../../../../widget/services/custom_button.dart';
+import '../../vender/packageservices/detailsPackage.dart';
+import '../details/detailsServiceForUser.dart';
 //import 'AddPackage.dart';
 //import 'ShowPackage.dart';
 //import 'detailsPackage.dart';
@@ -52,9 +53,10 @@ class _HomePageServiceState extends State<HomePageService> {
               itemBuilder: (BuildContext context, int i) {
                 return InkWell(
                   onTap: () {
-                    // Get.to(() => PackageDetails(
-                    //       data: snapshot.data!.docs[i],
-                    //     ));
+                    Get.to(() => DetailsServiceForUser(
+                          data: snapshot.data!.docs[i],
+                          ID_Doc:snapshot.data!.docs[i].id
+                        ));
                   },
                   child: Container(
                     margin: EdgeInsets.all(10),

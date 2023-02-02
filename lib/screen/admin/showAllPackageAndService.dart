@@ -3,7 +3,7 @@ import 'package:file_templeate/main.dart';
 import 'package:file_templeate/screen/admin/showdetilesService.dart';
 import 'package:file_templeate/screen/homePage/BottomNavigationBar.dart';
 import 'package:file_templeate/screen/homePage/HomePage.dart';
-import 'package:file_templeate/screen/homePage/showServicePlanner.dart';
+import 'package:file_templeate/screen/homePage/show/showServicePlanner.dart';
 import 'package:file_templeate/screen/vender/service/AddService.dart';
 import 'package:file_templeate/screen/vender/service/serviceDetails.dart';
 import 'package:file_templeate/widget/homeAppBar.dart';
@@ -40,7 +40,7 @@ class _AdminRoleState extends State<AdminRole> {
       appBar: AppBar(
         backgroundColor: Colors.black87,
         elevation: 0,
-        title: Text('admin'),
+        title: Text('الطلبات المعلقة',style:GoogleFonts.getFont('Almarai'),),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
@@ -57,7 +57,7 @@ class _AdminRoleState extends State<AdminRole> {
           ),
         ],
       ),
-      body: Column(children: [
+      body: ListView(children: [
         // Padding(
         //   padding: const EdgeInsets.all(8.0),
         //   child: Text(

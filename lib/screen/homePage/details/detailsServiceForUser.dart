@@ -1,45 +1,44 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:file_templeate/screen/homePage/show/showServicePlanner.dart';
-import 'package:file_templeate/screen/vender/packageservices/showPackage.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../Auth/signin.dart';
-import '../homePage/BottomNavigationBar.dart';
-import 'showAllPackageAndService.dart';
+import '../../vender/orders/AddOrders.dart';
 
-class PackageDetailsForAdmin extends StatefulWidget {
+
+
+class DetailsServiceForUser extends StatefulWidget {
   final data;
-  final ID_doc;
-  PackageDetailsForAdmin({
+  final ID_Doc;
+
+  DetailsServiceForUser({
     super.key,
-    required this.data,
-    this.ID_doc,
+    this.data,
+    this.ID_Doc,
   });
 
   @override
-  State<PackageDetailsForAdmin> createState() => _PackageDetailsForAdminState();
+  State<DetailsServiceForUser> createState() => _DetailsServiceForUserState();
 }
 
-class _PackageDetailsForAdminState extends State<PackageDetailsForAdmin> {
-  CollectionReference ref =
-      FirebaseFirestore.instance.collection("PackageServices");
+class _DetailsServiceForUserState extends State<DetailsServiceForUser> {
+  CollectionReference ref = FirebaseFirestore.instance.collection("Service");
   late String name;
   late String desc;
   late String imageURl;
   late String price;
-
   @override
   void initState() {
     name = widget.data['name'].toString();
     desc = widget.data['desc'].toString();
     imageURl = widget.data['imageurl'].toString();
     price = widget.data['salary'].toString();
-    print(name);
+
     super.initState();
   }
 
@@ -121,34 +120,49 @@ class _PackageDetailsForAdminState extends State<PackageDetailsForAdmin> {
     final bottomContentText = Column(
       children: [
         Text(
-          "مجموعة الخدمة :${name.toString()}",
+          "الاسم :${name.toString()}",
           style: TextStyle(fontSize: 18.0),
+          textDirection: TextDirection.rtl,
         ),
         SizedBox(
-          height: 10,
-        ),
-        Text(
-          "التفاصيل :${desc.toString()}",
-          style: TextStyle(fontSize: 18.0),
+          height: 5,
         ),
         Text(
           "السعر :${price.toString()}",
           style: TextStyle(fontSize: 18.0),
+          textDirection: TextDirection.rtl,
+        ),
+        Text(
+          "التفاصيل :${desc.toString()}",
+          style: TextStyle(fontSize: 18.0),
+          textDirection: TextDirection.rtl,
         )
       ],
     );
-    final readButton = Container(
-        padding: EdgeInsets.symmetric(vertical: 16.0),
-        width: MediaQuery.of(context).size.width,
-        child: MaterialButton(
-          textColor: Colors.white,
-          onPressed: () async {
-            await updataService();
-          },
-          color: Color.fromARGB(221, 77, 4, 4),
-          child: Text("  الموافقة على النشر  ",
-              style: GoogleFonts.getFont('Almarai')),
-        ));
+    final readButton = Column(
+      children: [
+        Container(
+            padding: EdgeInsets.symmetric(vertical: 5.0),
+            width: MediaQuery.of(context).size.width,
+            child: MaterialButton(
+              onPressed: () => {
+                Get.to(() => AddOrders(
+                      ID_doc: widget.ID_Doc,
+                    ))
+              },
+              color: Colors.black,
+              child: Text(
+                " حجز خدمة  ",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15),
+              ),
+            )),
+      
+       
+      ],
+    );
     final bottomContent = Container(
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.all(40.0),
@@ -160,50 +174,9 @@ class _PackageDetailsForAdminState extends State<PackageDetailsForAdmin> {
     );
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const AdminRole()));
-          },
-        ),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.close),
-            onPressed: () {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => const Signin()));
-            },
-          ),
-        ],
-      ),
       body: ListView(
         children: <Widget>[topContent, bottomContent],
       ),
     );
-  }
-
-  updataService() async {
-    await ref.doc(widget.ID_doc).update({
-      "Publishing": "1",
-    }).then((value) {
-      Get.snackbar(
-        "تمت العملية بنجاح  ",
-        "تم الموفقة على النشر ",
-        colorText: Colors.white,
-        backgroundColor: Colors.lightBlue,
-        icon: const Icon(Icons.add_alert),
-      snackPosition:SnackPosition.BOTTOM
-      );
-      Get.to(() => AdminRole());
-    }).catchError((e) {
-      print(e);
-    });
   }
 }
