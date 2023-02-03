@@ -3,6 +3,7 @@
 import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_templeate/widget/comment.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -27,12 +28,13 @@ class DetailsForUser extends StatefulWidget {
 
 class _DetailsForUserState extends State<DetailsForUser> {
   CollectionReference ref = FirebaseFirestore.instance.collection("Service");
-  CollectionReference refFavorite = FirebaseFirestore.instance.collection("Favorites");
+  CollectionReference refFavorite =
+      FirebaseFirestore.instance.collection("Favorites");
   late String name;
   late String desc;
   late String imageURl;
   late String price;
-  bool isPressed=false;
+  bool isPressed = false;
   @override
   void initState() {
     name = widget.data['name'].toString();
@@ -145,21 +147,33 @@ class _DetailsForUserState extends State<DetailsForUser> {
         Container(
             padding: EdgeInsets.symmetric(vertical: 5.0),
             width: MediaQuery.of(context).size.width,
-            child: IconButton(
-              color: Colors.red,
-                onPressed: () async{
-                         setState(() {  
-                  isPressed=!isPressed;
-                         });
-                 if (isPressed==true){
-                    await  addTOFavorite();
-                 }
-                 else {
-
-                 }
-                   
+            child: Row(
+              children: [
+                IconButton(
+                    color: Colors.red,
+                    onPressed: () async {
+                      setState(() {
+                        isPressed = !isPressed;
+                      });
+                      if (isPressed == true) {
+                        await addTOFavorite();
+                      } else {}
                     },
-                icon: isPressed ==false ? Icon(Icons.favorite_border_outlined):Icon(Icons.favorite))),
+                    icon: isPressed == false
+                        ? Icon(Icons.favorite_border_outlined)
+                        : Icon(Icons.favorite)),
+                SizedBox(
+                  width: 150,
+                ),
+                IconButton(
+                  color: Colors.black,
+                  onPressed: (() {
+                    Get.to(comment());
+                  }),
+                  icon: Icon(Icons.comment),
+                )
+              ],
+            )),
         Container(
             padding: EdgeInsets.symmetric(vertical: 5.0),
             width: MediaQuery.of(context).size.width,
@@ -196,23 +210,24 @@ class _DetailsForUserState extends State<DetailsForUser> {
       ),
     );
   }
-  addTOFavorite() async{
-     refFavorite.add({
-        "name": name,
-        "desc": desc,
-        "salary": price,
-        "booking": "true",
-        "imageurl": imageURl,
-        "Publishing":"1",
-        "user_id": FirebaseAuth.instance.currentUser!.uid.toString()
-      }).then((value) {
-       Get.snackbar("تمت العملية بنجاح  ", " ",
+
+  addTOFavorite() async {
+    refFavorite.add({
+      "name": name,
+      "desc": desc,
+      "salary": price,
+      "booking": "true",
+      "imageurl": imageURl,
+      "Publishing": "1",
+      "user_id": FirebaseAuth.instance.currentUser!.uid.toString()
+    }).then((value) {
+      Get.snackbar("تمت العملية بنجاح  ", " ",
           colorText: Colors.white,
           backgroundColor: Colors.lightBlue,
           icon: const Icon(Icons.add_alert),
           snackPosition: SnackPosition.BOTTOM);
-      }).catchError((e) {
-        print(e);
-      });
+    }).catchError((e) {
+      print(e);
+    });
   }
 }

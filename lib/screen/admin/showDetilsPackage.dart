@@ -100,6 +100,7 @@ class _PackageDetailsForAdminState extends State<PackageDetailsForAdmin> {
             padding: EdgeInsets.only(left: 10.0),
             height: MediaQuery.of(context).size.height * 0.4,
             decoration: new BoxDecoration(
+              color: Color.fromARGB(255, 3, 3, 3).withOpacity(0.5),
               image: new DecorationImage(
                 image: new NetworkImage("$imageURl"),
                 fit: BoxFit.cover,
@@ -166,10 +167,8 @@ class _PackageDetailsForAdminState extends State<PackageDetailsForAdmin> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const AdminRole()));
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const AdminRole()));
           },
         ),
         centerTitle: true,
@@ -193,14 +192,11 @@ class _PackageDetailsForAdminState extends State<PackageDetailsForAdmin> {
     await ref.doc(widget.ID_doc).update({
       "Publishing": "1",
     }).then((value) {
-      Get.snackbar(
-        "تمت العملية بنجاح  ",
-        "تم الموفقة على النشر ",
-        colorText: Colors.white,
-        backgroundColor: Colors.lightBlue,
-        icon: const Icon(Icons.add_alert),
-      snackPosition:SnackPosition.BOTTOM
-      );
+      Get.snackbar("تمت العملية بنجاح  ", "تم الموفقة على النشر ",
+          colorText: Colors.white,
+          backgroundColor: Colors.lightBlue,
+          icon: const Icon(Icons.add_alert),
+          snackPosition: SnackPosition.BOTTOM);
       Get.to(() => AdminRole());
     }).catchError((e) {
       print(e);
