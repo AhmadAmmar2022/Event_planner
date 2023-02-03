@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_templeate/screen/homePage/show/showServicePlanner.dart';
 import 'package:file_templeate/screen/vender/packageservices/showPackage.dart';
+import 'package:file_templeate/screen/vender/packageservices/showorderForVener.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -136,16 +137,25 @@ class _PackageDetailsState extends State<PackageDetails> {
         )
       ],
     );
-    final readButton = Container(
-        padding: EdgeInsets.symmetric(vertical: 16.0),
-        width: MediaQuery.of(context).size.width,
-        child: MaterialButton(
-          onPressed: () => {},
-          color: Colors.black87,
-          child: Text(
-            " حجز كامل الخدمات ",
-          ),
-        ));
+    final readButton = Column(
+      children: [
+       Container(
+            padding: EdgeInsets.symmetric(vertical: 5.0),
+            width: MediaQuery.of(context).size.width,
+            child: MaterialButton(
+              onPressed: () => {Get.to(() => ShowOrderForVender(ID_DOC: widget.ID_doc))},
+              color: Colors.black87,
+              hoverColor: Colors.blue,
+              child: Text(
+                " اظهار الطلبات   ",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15),
+              ),
+            )),
+      ],
+    );
     final bottomContent = Container(
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.all(40.0),

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_templeate/screen/admin/showAllPackageAndService.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -27,6 +28,10 @@ class _AddOrdersState extends State<AddOrders> {
   TextEditingController date = TextEditingController();
   TextEditingController details = TextEditingController();
   @override
+
+  void initState() {
+    super.initState();
+  }
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -53,10 +58,10 @@ class _AddOrdersState extends State<AddOrders> {
       body: ListView(
         children: [
           Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(color: Colors.blue, width: 4),
-            ),
+            // decoration: BoxDecoration(
+            //   color: Colors.white,
+            //   border: Border.all(color: Colors.blue, width: 4),
+            // ),
             // color: Color.fromARGB(255, 182, 132, 114),
             padding: EdgeInsets.all(10),
             child: Form(
@@ -101,6 +106,8 @@ class _AddOrdersState extends State<AddOrders> {
                     serviceButton(
                       text: "  اضافة طلب    ",
                       onTap: () async {
+                        print("===========>");
+                        print(widget.ID_doc);
                         await Add();
                       },
                     ),
@@ -115,14 +122,14 @@ class _AddOrdersState extends State<AddOrders> {
   Add() async {
     if (formstate.currentState!.validate()) {
       ref.add({
-        "user_id": FirebaseAuth.instance.currentUser!.uid.toString(),
+        "user_id": FirebaseAuth.instance.currentUser!.uid,
         "service_Id": widget.ID_doc,
         "name": name.text.trim(),
         "date": date.text.trim(),
         "datails": details.text.trim(),
-        "status": "0"
+        "status": "معلقة"
       }).then((value) {
-        Get.to(() => ShowPackage());
+        Get.to(() => AdminRole());
       }).catchError((e) {
         print(e);
       });

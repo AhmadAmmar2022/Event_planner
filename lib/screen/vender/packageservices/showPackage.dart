@@ -84,9 +84,9 @@ class _ShowPackageState extends State<ShowPackage> {
                   itemBuilder: (context, index) {
                     return InkWell(
                       onTap: () {
-                        Get.to(() => SeviceDetails(
+                        Get.to(() => PackageDetails(
                             data: snapshot.data!.docs[index],
-                            ID_Doc: snapshot.data!.docs[index].id));
+                            ID_doc: snapshot.data!.docs[index].id));
                       },
                       child: Container(
                         margin: EdgeInsets.all(10),

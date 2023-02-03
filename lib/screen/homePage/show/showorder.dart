@@ -18,11 +18,11 @@ class _ShowOrderState extends State<ShowOrder> {
   final Stream<QuerySnapshot> _usersStreamPackage = FirebaseFirestore.instance
       .collection('Orders')
       .where("user_id", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-      .where("service_Id", isEqualTo: "tubT1PGEWJzIE9JCzzpK")
-      .snapshots();
+    .snapshots();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+   
       appBar: AppBar(
         backgroundColor: Colors.black87,
         elevation: 0,
@@ -60,19 +60,18 @@ class _ShowOrderState extends State<ShowOrder> {
               itemBuilder: (BuildContext context, int i) {
                 return InkWell(
                   onTap: () {},
-                  child: Container(
+                  child: Card(
+                    elevation: 10,
                       margin: EdgeInsets.all(10),
-                      child: Container(
-                        padding: EdgeInsets.all(15),
-                        alignment: Alignment.center,
-                        child: Text(
-                          "${snapshot.data!.docs[i]["name"]}",
-                          style: TextStyle(color: Colors.white, fontSize: 25),
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.5),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
+                      child: ListTile(
+                       title:  Text(
+                         "${snapshot.data!.docs[i]["name"]}",
+                         style: TextStyle(color: Color.fromARGB(255, 10, 10, 10), fontSize: 25),
+                       ),
+                        trailing:Text(
+                            "${snapshot.data!.docs[i]["status"]}",
+                            style: TextStyle(color: Color.fromARGB(255, 12, 0, 0), fontSize: 25),
+                          ),
                       )),
                 );
               });

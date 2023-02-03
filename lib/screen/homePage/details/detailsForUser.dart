@@ -39,7 +39,8 @@ class _DetailsForUserState extends State<DetailsForUser> {
     desc = widget.data['desc'].toString();
     imageURl = widget.data['imageurl'].toString();
     price = widget.data['salary'].toString();
-
+      print("================>");
+      print(widget.ID_Doc.toString());
     super.initState();
   }
 

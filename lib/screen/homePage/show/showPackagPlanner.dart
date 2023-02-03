@@ -24,7 +24,7 @@ class HomePagePackage extends StatefulWidget {
 
 class _HomePagePackageState extends State<HomePagePackage> {
   final Stream<QuerySnapshot> _usersStreamPackage =
-      FirebaseFirestore.instance.collection('PackageServices').snapshots();
+      FirebaseFirestore.instance.collection('PackageServices').where('Publishing',isEqualTo:"1").snapshots();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +54,7 @@ class _HomePagePackageState extends State<HomePagePackage> {
                 return InkWell(
                   onTap: () {
                     Get.to(() => DetailsForUser(
-                          ID_Doc:snapshot.data!.docs[i],
+                          ID_Doc:snapshot.data!.docs[i].id,
                           data: snapshot.data!.docs[i],
                         ));
                   },

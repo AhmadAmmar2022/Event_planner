@@ -1,11 +1,12 @@
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
 import 'package:file_templeate/screen/homePage/show/showServicePlanner.dart';
 import 'package:file_templeate/screen/homePage/show/showPackagPlanner.dart';
+import 'package:file_templeate/screen/homePage/show/showorder.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 
-import 'Favorite.dart';
+import 'show/Favorite.dart';
 import 'homepage.dart';
 
 class BottomNavigation extends StatefulWidget {
@@ -30,13 +31,13 @@ class _BottomNavigationState extends State<BottomNavigation> {
   }
 
   final screens = [
-  Favorite(),HomePageService(),HomePagePackage()
+  ShowOrder(),Favorite(),HomePageService(),HomePagePackage()
 
 
   ];
 
-  final _pageController = PageController(initialPage: 2);
-  int maxCount = 3;
+  final _pageController = PageController(initialPage: 3); 
+  int maxCount = 4;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,8 +53,19 @@ class _BottomNavigationState extends State<BottomNavigation> {
               color: Colors.white,
               showLabel: true,
               notchColor: Color.fromARGB(197, 143, 34, 170),
-              bottomBarItems: [
-                const BottomBarItem(
+              bottomBarItems: const[
+                   BottomBarItem(
+                  inActiveItem: Icon(
+                    Icons.my_library_books,
+                    color: Color.fromARGB(255, 35, 49, 140),
+                  ),
+                  activeItem: Icon(
+                    Icons.my_library_books,
+                    color: Color.fromARGB(255, 244, 244, 245),
+                  ),
+                  itemLabel: 'الطلبات',
+                ),
+                 BottomBarItem(
                   inActiveItem: Icon(
                     Icons.favorite_border,
                     color: Color.fromARGB(255, 35, 49, 140),
@@ -64,10 +76,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
                   ),
                   itemLabel: 'المفضلة',
                 ),
-
-                ///svg example
-
-                const BottomBarItem(
+                 BottomBarItem(
                   inActiveItem: Icon(
                     Icons.shop_2_outlined,
                     color: Color.fromARGB(255, 35, 49, 140),
@@ -78,7 +87,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
                   ),
                   itemLabel: 'الخدمه',
                 ),
-                const BottomBarItem(
+                 BottomBarItem(
                   inActiveItem: Icon(
                     Icons.home,
                     color: Color.fromARGB(255, 35, 49, 140),

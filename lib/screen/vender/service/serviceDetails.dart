@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../orders/AddOrders.dart';
-import '../orders/showorder.dart';
+import '../../homePage/show/showorder.dart';
 import '../packageservices/ShowPackage.dart';
 import 'Editservice.dart';
 
@@ -142,24 +142,7 @@ class _SeviceDetailsState extends State<SeviceDetails> {
     );
     final readButton = Column(
       children: [
-        Container(
-            padding: EdgeInsets.symmetric(vertical: 5.0),
-            width: MediaQuery.of(context).size.width,
-            child: MaterialButton(
-              onPressed: () => {
-                Get.to(() => AddOrders(
-                      ID_doc: widget.ID_Doc,
-                    ))
-              },
-              color: Colors.black,
-              child: Text(
-                " حجز خدمة  ",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15),
-              ),
-            )),
+     
         Container(
             padding: EdgeInsets.symmetric(vertical: 5.0),
             width: MediaQuery.of(context).size.width,
@@ -175,20 +158,7 @@ class _SeviceDetailsState extends State<SeviceDetails> {
                     fontSize: 15),
               ),
             )),
-        Container(
-            padding: EdgeInsets.symmetric(vertical: 5.0),
-            width: MediaQuery.of(context).size.width,
-            child: MaterialButton(
-              onPressed: () => {},
-              color: Colors.black87,
-              child: Text(
-                "  تفعيل الحساب   ",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15),
-              ),
-            )),
+      
         Container(
             padding: EdgeInsets.symmetric(vertical: 5.0),
             width: MediaQuery.of(context).size.width,

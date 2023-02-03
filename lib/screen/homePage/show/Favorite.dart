@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'details/detailsForUser.dart';
+import '../details/detailsForUser.dart';
 
 class Favorite extends StatefulWidget {
   const Favorite({super.key});
