@@ -9,9 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../widget/comment.dart';
 import '../../vender/orders/AddOrders.dart';
-
-
 
 class DetailsServiceForUser extends StatefulWidget {
   final data;
@@ -29,8 +28,9 @@ class DetailsServiceForUser extends StatefulWidget {
 
 class _DetailsServiceForUserState extends State<DetailsServiceForUser> {
   CollectionReference ref = FirebaseFirestore.instance.collection("Service");
-  CollectionReference refFavorite = FirebaseFirestore.instance.collection("Favorites");
-  bool isPressed=false;
+  CollectionReference refFavorite =
+      FirebaseFirestore.instance.collection("Favorites");
+  bool isPressed = false;
   late String name;
   late String desc;
   late String imageURl;
@@ -144,24 +144,45 @@ class _DetailsServiceForUserState extends State<DetailsServiceForUser> {
     );
     final readButton = Column(
       children: [
-         Container(
+        Container(
             padding: EdgeInsets.symmetric(vertical: 5.0),
             width: MediaQuery.of(context).size.width,
-            child: IconButton(
-              color: Colors.red,
-                onPressed: () async{
-                         setState(() {  
-                  isPressed=!isPressed;
-                         });
-                 if (isPressed==true){
-                    await  addTOFavorite();
-                 }
-                 else {
-
-                 }
-                   
+            child: Row(
+              children: [
+                Text(
+                  'إضافة الى المفضلة',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                IconButton(
+                    color: Colors.red,
+                    onPressed: () async {
+                      setState(() {
+                        isPressed = !isPressed;
+                      });
+                      if (isPressed == true) {
+                        await addTOFavorite();
+                      } else {}
                     },
-                icon: isPressed ==false ? Icon(Icons.favorite_border_outlined):Icon(Icons.favorite))),
+                    icon: isPressed == false
+                        ? Icon(Icons.favorite_border_outlined)
+                        : Icon(Icons.favorite)),
+                SizedBox(
+                  width: 70,
+                ),
+                Text(
+                  'التعليقات',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                IconButton(
+                  tooltip: "التعليقات",
+                  color: Colors.red,
+                  onPressed: (() {
+                    Get.to(comment());
+                  }),
+                  icon: Icon(Icons.comment),
+                )
+              ],
+            )),
         Container(
             padding: EdgeInsets.symmetric(vertical: 5.0),
             width: MediaQuery.of(context).size.width,
@@ -180,8 +201,6 @@ class _DetailsServiceForUserState extends State<DetailsServiceForUser> {
                     fontSize: 15),
               ),
             )),
-      
-       
       ],
     );
     final bottomContent = Container(
@@ -200,23 +219,24 @@ class _DetailsServiceForUserState extends State<DetailsServiceForUser> {
       ),
     );
   }
-   addTOFavorite() async{
-     refFavorite.add({
-        "name": name,
-        "desc": desc,
-        "salary": price,
-        "booking": "true",
-        "imageurl": imageURl,
-        "Publishing":"1",
-        "user_id": FirebaseAuth.instance.currentUser!.uid.toString()
-      }).then((value) {
-       Get.snackbar("تمت العملية بنجاح  ", " ",
+
+  addTOFavorite() async {
+    refFavorite.add({
+      "name": name,
+      "desc": desc,
+      "salary": price,
+      "booking": "true",
+      "imageurl": imageURl,
+      "Publishing": "1",
+      "user_id": FirebaseAuth.instance.currentUser!.uid.toString()
+    }).then((value) {
+      Get.snackbar("تمت العملية بنجاح  ", " ",
           colorText: Colors.white,
           backgroundColor: Colors.lightBlue,
           icon: const Icon(Icons.add_alert),
           snackPosition: SnackPosition.BOTTOM);
-      }).catchError((e) {
-        print(e);
-      });
+    }).catchError((e) {
+      print(e);
+    });
   }
 }
