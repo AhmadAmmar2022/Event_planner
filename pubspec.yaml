@@ -55,6 +55,7 @@ dependencies:
   smooth_page_indicator: ^1.0.0+2
   localization: ^2.1.0
   comment_box: ^0.0.18
+  http: ^0.13.5
   # flutter_localizations:
   #   sdk: flutter
   # intl: any

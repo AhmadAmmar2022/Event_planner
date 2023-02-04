@@ -28,10 +28,10 @@ class _AddOrdersState extends State<AddOrders> {
   TextEditingController date = TextEditingController();
   TextEditingController details = TextEditingController();
   @override
-
   void initState() {
     super.initState();
   }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -73,7 +73,7 @@ class _AddOrdersState extends State<AddOrders> {
                       hint: "الاسم ",
                       controller: name,
                       valu: (val) {
-                        return validate(val!, 25, 2);
+                        // return validate(val!, 25, 2);
                       },
                     ),
                     CustomTextFild(
@@ -81,7 +81,7 @@ class _AddOrdersState extends State<AddOrders> {
                       hint: " التاريخ  ",
                       controller: date,
                       valu: (val) {
-                        return validate(val!, 30, 2);
+                        //return validate(val!, 30, 2);
                       },
                     ),
                     CustomTextFild(
@@ -89,7 +89,7 @@ class _AddOrdersState extends State<AddOrders> {
                       hint: " تفاصيل الطلب   ",
                       controller: details,
                       valu: (val) {
-                        return validate(val!, 15, 1);
+                        //return validate(val!, 15, 1);
                       },
                     ),
                     SizedBox(

@@ -9,6 +9,8 @@ late User signedInUser; //this will give us the email
 final _firestore = FirebaseFirestore.instance;
 
 class comment extends StatefulWidget {
+  final ID_doc;
+  const comment({super.key, this.ID_doc});
   @override
   _commentState createState() => _commentState();
 }
@@ -32,6 +34,7 @@ class _commentState extends State<comment> {
       final user = _auth.currentUser;
       if (user != null) {
         signedInUser = user;
+
         print(signedInUser.email);
       }
     } catch (e) {
@@ -39,6 +42,7 @@ class _commentState extends State<comment> {
     }
   }
 
+  var email = signedInUser.email;
   Widget commentChild() {
     return FutureBuilder(
         future: fetchData(),
@@ -70,7 +74,7 @@ class _commentState extends State<comment> {
                         ),
                       ),
                       title: Text("${snapshot.data[i]['text']}"),
-                      // subtitle: Text("${snapshot.data[i]['text']}"),
+                      // subtitle: Text("$email"),
                       //trailing: Text("${snapshot.data[i]['date']}"),
                     ),
                   ),
@@ -114,6 +118,7 @@ class _commentState extends State<comment> {
           sendButtonMethod: () {
             if (formKey.currentState!.validate()) {
               print(commentController.text);
+
               Add();
               commentController.clear();
               FocusScope.of(context).unfocus();
@@ -139,8 +144,11 @@ class _commentState extends State<comment> {
 
   Add() async {
     userref.add({
+      //"user": email,
+      // "service_Id": widget.ID_doc,
       "text": commentController.text,
     }).then((value) {
+      print(widget.ID_doc);
       Get.snackbar("تمت العملية بنجاح  ", " ",
           colorText: Colors.white,
           backgroundColor: Colors.lightBlue,
