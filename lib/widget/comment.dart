@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
-late User signedInUser; //this will give us the email
+// late User signedInUser; //this will give us the email
 final _firestore = FirebaseFirestore.instance;
 
 class comment extends StatefulWidget {
@@ -20,12 +20,12 @@ class _commentState extends State<comment> {
   final formKey = GlobalKey<FormState>();
   final TextEditingController commentController = TextEditingController();
 
-  CollectionReference userref =
-      FirebaseFirestore.instance.collection("comment");
+  late CollectionReference userref ;
+ late final Stream<QuerySnapshot> _usersStreamPackage;
   String? messageText;
   void initState() {
     super.initState();
-    fetchData();
+   fetchData(widget.ID_doc);
     getCurrentUser();
   }
 
@@ -33,68 +33,50 @@ class _commentState extends State<comment> {
     try {
       final user = _auth.currentUser;
       if (user != null) {
-        signedInUser = user;
-
-        print(signedInUser.email);
+        // signedInUser = user;
+        // print(signedInUser.email);
       }
     } catch (e) {
       print(e);
     }
   }
 
-  var email = signedInUser.email;
+  // var email = signedInUser.email;
   Widget commentChild() {
-    return FutureBuilder(
-        future: fetchData(),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.hasData) {
-            return ListView(
-              children: [
-                for (var i = 0; i < snapshot.data.length; i++)
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(2.0, 8.0, 2.0, 0.0),
-                    child: ListTile(
-                      leading: GestureDetector(
-                        onTap: () async {
-                          // Display the image in large form.
-                          print("Comment Clicked");
-                        },
-                        child: Container(
-                          height: 50.0,
-                          width: 50.0,
-                          decoration: new BoxDecoration(
-                              color: Colors.blue,
-                              borderRadius:
-                                  new BorderRadius.all(Radius.circular(50))),
-                          child: CircleAvatar(
-                              radius: 50,
-                              backgroundImage: CommentBox.commentImageParser(
-                                  imageURLorPath:
-                                      'https://icons.iconarchive.com/icons/custom-icon-design/flatastic-10/256/Comment-edit-icon.png')),
-                        ),
-                      ),
-                      title: Text("${snapshot.data[i]['text']}"),
-                      // subtitle: Text("$email"),
-                      //trailing: Text("${snapshot.data[i]['date']}"),
-                    ),
-                  ),
-              ],
-            );
-          } //this is for if statement
+    return StreamBuilder<QuerySnapshot>(
+        stream: _usersStreamPackage,
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Text('Something went wrong');
+          }
+
           if (snapshot.connectionState == ConnectionState.waiting) {
             return CircularProgressIndicator();
           }
-          if (snapshot.hasError) {
-            return Center(
-              child: Text(
-                '${snapshot.error} occurred',
-                style: TextStyle(fontSize: 18),
-              ),
-            );
-          }
 
-          return Text("  لا يوجد اي تعليقات ");
-        });
+          return ListView.builder(
+              itemCount: snapshot.data!.docs.length,
+              itemBuilder: (BuildContext context, int i) {
+                return InkWell(
+                  onTap: () {
+                   
+                  },
+                  child: Card(
+                      elevation: 10,
+                      margin: EdgeInsets.all(10),
+                      child: ListTile(
+                        title: Text(
+                          "${snapshot.data!.docs[i]["name"]}",
+                          style: TextStyle(
+                              color: Color.fromARGB(255, 10, 10, 10),
+                              fontSize: 25),
+                        ),
+                       
+                      )),
+                );
+              });
+        },
+      );;
 
     //this is the end of commentchild
   } //for comment  child
@@ -136,10 +118,8 @@ class _commentState extends State<comment> {
     );
   }
 
-  fetchData() async {
-    QuerySnapshot snapshot = await userref.get();
-    List<QueryDocumentSnapshot> listdocs = snapshot.docs;
-    return listdocs;
+ fetchData(String searchFild) async {
+    _usersStreamPackage = FirebaseFirestore.instance.collection('comment').where("service_Id", isEqualTo: searchFild).snapshots();
   }
 
   Add() async {

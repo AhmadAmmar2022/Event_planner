@@ -39,7 +39,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
   ];
 
   final _pageController = PageController(initialPage: 3);
-  int maxCount = 4;
+  int maxCount = 5;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -109,7 +109,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
                     Icons.person,
                     color: Color.fromARGB(255, 244, 244, 245),
                   ),
-                  itemLabel: ' ممولي الخدمات ',
+                  itemLabel: ' ',
                 ),
               ],
               onTap: (index) {

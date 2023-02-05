@@ -169,7 +169,9 @@ class _DetailsForUserState extends State<DetailsForUser> {
                 IconButton(
                   color: Colors.black,
                   onPressed: (() {
-                    Get.to(comment());
+                    Get.to(comment(
+                      ID_doc:widget.ID_Doc ,
+                    ));
                   }),
                   icon: Icon(Icons.comment),
                 )

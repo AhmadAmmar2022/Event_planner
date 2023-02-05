@@ -144,8 +144,7 @@ class _PackageDetailsForAdminState extends State<PackageDetailsForAdmin> {
           textColor: Colors.white,
           onPressed: () async {
             await updataService();
-
-            // send('تم تعديل بيانات الخدمة والموافقة على النشر', 'done');
+                      
           },
           color: Color.fromARGB(221, 77, 4, 4),
           child: Text("  الموافقة على النشر  ",

@@ -11,6 +11,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../widget/services/custom_button.dart';
 import '../../vender/packageservices/detailsPackage.dart';
 import '../details/detailsForUser.dart';
+import '../search/searchdata.dart';
 //import 'AddPackage.dart';
 //import 'ShowPackage.dart';
 //import 'detailsPackage.dart';
@@ -29,6 +30,10 @@ class _HomePagePackageState extends State<HomePagePackage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [IconButton(icon: Icon(Icons.search),onPressed: (() {
+          Get.to(()=>SearchData());
+        }),)],
+        
         title: Text(' مجموعة الخدمات '),
         backgroundColor: Colors.black,
       ),

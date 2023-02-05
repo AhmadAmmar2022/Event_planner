@@ -113,7 +113,7 @@ class MyApp extends StatelessWidget {
               ),
             ),
       ),
-      home: splashscreen(),
+      home: Signin(),
 
       //islogin == true ? AdminRole() : OnBording(),
     );
@@ -128,9 +128,9 @@ class splashscreen extends StatelessWidget {
     return AnimatedSplashScreen(
       splash: Lottie.asset('images/1.json'),
       backgroundColor: Color.fromRGBO(253, 253, 253, 1),
-      splashIconSize: 200,
-      duration: 200,
-      nextScreen: islogin == true ? HomePageSponsor() : Signin(),
+      splashIconSize: 100,
+      duration: 100,
+      nextScreen: islogin == true ? ShowPackage() : Signin(),
       splashTransition: SplashTransition.slideTransition,
       animationDuration: Duration(seconds: 3),
     );

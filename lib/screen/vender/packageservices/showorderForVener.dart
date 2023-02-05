@@ -4,7 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'detilesOrder.dart';
 
 class ShowOrderForVender extends StatefulWidget {
   final ID_DOC;
@@ -17,62 +20,15 @@ class ShowOrderForVender extends StatefulWidget {
 class _ShowOrderForVenderState extends State<ShowOrderForVender> {
   late final Stream<QuerySnapshot> _usersStreamPackage;
 
-   var options = [
-    'معلقة',
-    'قيد الانجاز',
-    'تم الموافقة والحجز'
-  ];
-   var _currentItemSelected = "معلقة";
-    var newpros="معلقة";
+  var options = ['معلقة', 'قيد الانجاز', 'تم الموافقة والحجز'];
+  var _currentItemSelected = "معلقة";
+  var newpros = "معلقة";
   @override
   void initState() {
     fetchData(widget.ID_DOC);
     super.initState();
   }
-     _displayDialog(BuildContext context) async {  
-    return showDialog(  
-        context: context,  
-        builder: (context) {  
-          return AlertDialog(  
-            title: Text('TextField AlertDemo'),  
-            content:   DropdownButton<String>(
-                              dropdownColor: Color.fromARGB(255, 55, 102, 173),
-                              isDense: true,
-                              isExpanded: false,
-                              iconEnabledColor: Color.fromARGB(255, 20, 1, 1),
-                              focusColor: Color.fromARGB(255, 17, 1, 1),
-                              items: options.map((String dropDownStringItem) {
-                                return DropdownMenuItem<String>(
-                                  value: dropDownStringItem,
-                                  child: Text(
-                                    dropDownStringItem,
-                                    style: TextStyle(
-                                      color: Color.fromARGB(255, 124, 121, 121),
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                );
-                              }).toList(),
-                              onChanged: (newValueSelected) {
-                                setState(() {
-                                  _currentItemSelected = newValueSelected!;
-                                  newpros = newValueSelected;
-                                });
-                              },
-                              value: _currentItemSelected,
-                            ),
-            actions: <Widget>[  
-               MaterialButton(  
-                child: new Text('SUBMIT'),  
-                onPressed: () {  
-                  Navigator.of(context).pop();  
-                },  
-              )  
-            ],  
-          );  
-        });  
-  } 
+
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +36,10 @@ class _ShowOrderForVenderState extends State<ShowOrderForVender> {
       appBar: AppBar(
         backgroundColor: Colors.black87,
         elevation: 0,
-        title: Text('عرض الطلبات التي تخص هذه الخدمة  '),
+        title: Text(
+          'عرض الطلبات   ',
+          style: GoogleFonts.getFont('Almarai'),
+        ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
@@ -114,7 +73,9 @@ class _ShowOrderForVenderState extends State<ShowOrderForVender> {
               itemBuilder: (BuildContext context, int i) {
                 return InkWell(
                   onTap: () {
-                    _displayDialog(context);
+                    Get.to(() => detilesOrder(
+                        data: snapshot.data!.docs[i],
+                        ID_doc: snapshot.data!.docs[i].id));
                   },
                   child: Card(
                       elevation: 10,
@@ -141,9 +102,6 @@ class _ShowOrderForVenderState extends State<ShowOrderForVender> {
   }
 
   fetchData(String searchFild) async {
-    _usersStreamPackage = FirebaseFirestore.instance
-        .collection('Orders')
-        .where("service_Id", isEqualTo: searchFild)
-        .snapshots();
+    _usersStreamPackage = FirebaseFirestore.instance.collection('Orders').where("service_Id", isEqualTo: searchFild).snapshots();
   }
 }
