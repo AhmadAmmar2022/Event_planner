@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_templeate/main.dart';
-import 'package:file_templeate/screen/chat_screen.dart';
+import 'package:file_templeate/screen/sponsor/chat_screen.dart';
 import 'package:file_templeate/screen/homePage/show/showServicePlanner.dart';
-import 'package:file_templeate/screen/homePage/HomePageSponsor.dart';
+import 'package:file_templeate/screen/sponsor/HomePageSponsor.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +35,7 @@ class _SigninState extends State<Signin> {
   String get password => _passwordController.text.trim();
   late UserCredential credential;
   GlobalKey<FormState> formstate = new GlobalKey<FormState>();
- 
+
   @override
   Widget build(BuildContext context) {
     bool visiable = true;
@@ -182,7 +182,7 @@ class _SigninState extends State<Signin> {
     }
   }
 
-  void route() async{
+  void route() async {
     User? user = await FirebaseAuth.instance.currentUser;
     var kk = await FirebaseFirestore.instance
         .collection('Users')
@@ -196,17 +196,16 @@ class _SigninState extends State<Signin> {
         } else if (documentSnapshot.get('role') == "sponser") {
           sharedpref.setString("role", "sponser");
           Get.to(() => HomePageSponsor());
+        } else if (documentSnapshot.get('role') == "planner") {
+          sharedpref.setString("role", "planner");
+          Get.to(() => BottomNavigation());
+        } else {
+          Get.to(() => AdminRole());
+          sharedpref.setString("role", "admin");
         }
-       else if(documentSnapshot.get('role') == "planner"){
-         sharedpref.setString("role", "planner");
-        Get.to(() => BottomNavigation());
       } else {
-        Get.to(() => AdminRole());
-         sharedpref.setString("role", "admin");
-      }
-      }else {
         print("-------------------->");
-      } 
+      }
     });
   }
 }

@@ -1,5 +1,4 @@
 import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_templeate/screen/homePage/show/showServicePlanner.dart';
 import 'package:file_templeate/screen/vender/packageservices/showPackage.dart';
@@ -7,7 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import '../../../widget/notification.dart';
 import '../../../Auth/signin.dart';
 import '../homePage/BottomNavigationBar.dart';
 import 'showAllPackageAndService.dart';
@@ -145,6 +144,8 @@ class _PackageDetailsForAdminState extends State<PackageDetailsForAdmin> {
           textColor: Colors.white,
           onPressed: () async {
             await updataService();
+
+            // send('تم تعديل بيانات الخدمة والموافقة على النشر', 'done');
           },
           color: Color.fromARGB(221, 77, 4, 4),
           child: Text("  الموافقة على النشر  ",

@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:file_templeate/screen/homePage/HomePageSponsor.dart';
+import 'package:file_templeate/screen/sponsor/HomePageSponsor.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -121,7 +121,7 @@ class _ChatScreenState extends State<ChatScreen> {
                           vertical: 10,
                           horizontal: 20,
                         ),
-                        hintText: 'Write your message here...',
+                        hintText: 'اكتب رسالتك هنا...',
                         border: InputBorder.none,
                       ),
                     ),
@@ -213,7 +213,7 @@ class Messageline extends StatelessWidget {
         children: [
           Text(
             '$sender',
-            style: TextStyle(color: Colors.pink, fontSize: 12),
+            style: TextStyle(color: Colors.blue, fontSize: 12),
           ),
           Material(
             elevation: 5,

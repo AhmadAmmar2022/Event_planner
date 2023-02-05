@@ -1,8 +1,11 @@
 //import 'package:carousel_slider/carousel_slider.dart';
 import 'package:file_templeate/Auth/signin.dart';
+import 'package:file_templeate/screen/sponsor/HomePageSponsor.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:file_templeate/Auth/signup.dart';
+import 'package:file_templeate/widget/notification.dart';
 import 'package:file_templeate/screen/admin/showAllPackageAndService.dart';
-import 'package:file_templeate/screen/chat_screen.dart';
+import 'package:file_templeate/screen/sponsor/chat_screen.dart';
 import 'package:file_templeate/screen/homePage/HomePage.dart';
 import 'package:file_templeate/screen/homePage/search/Search.dart';
 import 'package:file_templeate/screen/homePage/show/showPackagPlanner.dart';
@@ -56,21 +59,22 @@ void main() async {
     print("***********************");
   });
 //this is method used when the app id open forecore
-  FirebaseMessaging.onMessage.listen((event) {
-    print('---------------- data notification ---------------');
-// Navigator.pushReplacement(context,
-//                 MaterialPageRoute(builder: (context) => const ShowPackage()));
+//   FirebaseMessaging.onMessage.listen((event) {
+//     print('---------------- data notification ---------------');
+// // Navigator.pushReplacement(context,
+// //                 MaterialPageRoute(builder: (context) => const ShowPackage()));
 
-    print("${event.notification!.body}");
-    print("--------------------------------------------------");
-  });
+//     print("${event.notification!.body}");
+//     print("--------------------------------------------------");
+//   });
 
 //this is used when the app in backgroung mode
-  Future BackgroundMessage(RemoteMessage message) async {
-    print('*****************backgroung message***********');
-    print("${message.notification!.body}");
-    print('*****************background********************');
-  }
+
+  // Future BackgroundMessage(RemoteMessage message) async {
+  //   print('*****************backgroung message***********');
+  //   print("${message.notification!.body}");
+  //   print('*****************background********************');
+  // }
 }
 
 class MyApp extends StatelessWidget {
@@ -109,7 +113,8 @@ class MyApp extends StatelessWidget {
               ),
             ),
       ),
-      home: Signin(),
+      home: splashscreen(),
+
       //islogin == true ? AdminRole() : OnBording(),
     );
   }
@@ -125,7 +130,7 @@ class splashscreen extends StatelessWidget {
       backgroundColor: Color.fromRGBO(253, 253, 253, 1),
       splashIconSize: 200,
       duration: 200,
-      nextScreen: islogin == true ? AdminRole() : Signin(),
+      nextScreen: islogin == true ? HomePageSponsor() : Signin(),
       splashTransition: SplashTransition.slideTransition,
       animationDuration: Duration(seconds: 3),
     );
