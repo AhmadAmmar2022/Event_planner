@@ -5,9 +5,6 @@ import 'package:get/state_manager.dart';
 
 import '../../OnBording/onBooarding_controller.dart';
 
-
-
-
 class CustomButtononBording extends GetView<OnBoardingControllerImp> {
   const CustomButtononBording({super.key});
 
@@ -18,9 +15,15 @@ class CustomButtononBording extends GetView<OnBoardingControllerImp> {
       onPressed: () {
         controller.next();
       },
-      child: Text("continue"),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(
+          "متابعة",
+          style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
+        ),
+      ),
       textColor: Colors.white,
-      color: Colors.blue,
+      color: Colors.black87,
     );
   }
 }

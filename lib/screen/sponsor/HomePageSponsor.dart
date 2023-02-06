@@ -92,7 +92,7 @@ class _HomePageSponsorState extends State<HomePageSponsor> {
                         ),
                       ),
                       ListTile(
-                        tileColor: Colors.black26,
+                        tileColor: Colors.black12,
                         title: Text(
                           textDirection: TextDirection.rtl,
                           "البريد الالكتروني:    ${snapshot.data!.docs[i]["email"]}",
@@ -107,7 +107,7 @@ class _HomePageSponsorState extends State<HomePageSponsor> {
                         ),
                       ),
                       ListTile(
-                        tileColor: Colors.black38,
+                        tileColor: Colors.black12,
                         title: Text(
                           textDirection: TextDirection.rtl,
                           "تواصل  ",
