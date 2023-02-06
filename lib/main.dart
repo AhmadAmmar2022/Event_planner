@@ -1,5 +1,6 @@
 //import 'package:carousel_slider/carousel_slider.dart';
 import 'package:file_templeate/Auth/signin.dart';
+import 'package:file_templeate/screen/homePage/BottomNavigationBar.dart';
 import 'package:file_templeate/screen/sponsor/HomePageSponsor.dart';
 import 'package:file_templeate/screen/vender/packageservices/showorderForVener.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -114,7 +115,7 @@ class MyApp extends StatelessWidget {
               ),
             ),
       ),
-      home: splashscreen(),
+      home: BottomNavigation(),
 
       //islogin == true ? AdminRole() : OnBording(),
     );

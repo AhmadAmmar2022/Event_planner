@@ -25,11 +25,38 @@ class HomePageService extends StatefulWidget {
 class _HomePageServiceState extends State<HomePageService> {
   final Stream<QuerySnapshot> _usersStreamPackage =
       FirebaseFirestore.instance.collection('Service').where("Publishing",isEqualTo: "1").snapshots();
+       String name = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(' الخدمات  '),
+         title: Container(
+            padding: EdgeInsets.all(10),
+            child: TextFormField(
+              onChanged: (value) {
+                setState(() {
+                  name = value;
+                });
+              },
+              decoration: InputDecoration(
+             
+                hintText:" ابحث هنا",
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                    borderSide: BorderSide(
+                        width: 3, color: Color.fromARGB(255, 249, 249, 249))),
+                filled: true,
+                fillColor: Color(0xff838C96),
+                isDense: true,
+                contentPadding: EdgeInsets.all(10),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                    borderSide: BorderSide(
+                      width: 5,
+                    )),
+              ),
+            ),
+          ),
         backgroundColor: Colors.black,
       ),
       body: StreamBuilder<QuerySnapshot>(
@@ -51,13 +78,16 @@ class _HomePageServiceState extends State<HomePageService> {
               scrollDirection: Axis.vertical,
               itemCount: snapshot.data!.docs.length,
               itemBuilder: (BuildContext context, int i) {
-                return InkWell(
-                  onTap: () {
-                    Get.to(() => DetailsServiceForUser(
-                          data: snapshot.data!.docs[i],
-                          ID_Doc:snapshot.data!.docs[i].id
-                        ));
-                  },
+                   var data =
+                    snapshot.data!.docs[i].data() as Map<String, dynamic>;
+                 if (name.isEmpty) {
+                  return InkWell(
+                    onTap: () {
+                      Get.to(() => DetailsServiceForUser(
+                            ID_Doc: snapshot.data!.docs[i].id,
+                            data: snapshot.data!.docs[i],
+                          ));
+                    },
                   child: Container(
                     margin: EdgeInsets.all(10),
                     child: Stack(
@@ -83,7 +113,52 @@ class _HomePageServiceState extends State<HomePageService> {
                     ),
                   ),
                 );
-              });
+              }
+              if (data['name']
+                      .toString()
+                      .toLowerCase()
+                      .startsWith(name.toLowerCase())) {
+                     return InkWell(
+                    onTap: () {
+                      Get.to(() => DetailsServiceForUser(
+                            ID_Doc: snapshot.data!.docs[i].id,
+                            data: snapshot.data!.docs[i],
+                          ));
+                    },
+                    child: Container(
+                      margin: EdgeInsets.all(10),
+                      child: Stack(
+                        children: [
+                          ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: Image.network(
+                                "${snapshot.data!.docs[i]["imageurl"]}",
+                                height: 250,
+                                width: 400,
+                                fit: BoxFit.cover,
+                              )),
+                          Container(
+                            padding: EdgeInsets.all(15),
+                            alignment: Alignment.center,
+                            child: Text(
+                              "${snapshot.data!.docs[i]["name"]}",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 25),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                  }    return Container();
+              
+              
+              
+              
+              
+              
+              
+        });
         },
       ),
     );
