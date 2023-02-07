@@ -9,8 +9,9 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../orders/AddOrders.dart';
-import '../../homePage/show/showorder.dart';
+
 import '../packageservices/ShowPackage.dart';
+import '../orders/showorderForVener.dart';
 import 'Editservice.dart';
 
 class SeviceDetails extends StatefulWidget {
@@ -147,7 +148,7 @@ class _SeviceDetailsState extends State<SeviceDetails> {
             padding: EdgeInsets.symmetric(vertical: 5.0),
             width: MediaQuery.of(context).size.width,
             child: MaterialButton(
-              onPressed: () => {Get.to(() => ShowOrder(ID_DOC: widget.ID_Doc))},
+              onPressed: () => {Get.to(() => ShowOrderForVender(ID_DOC: widget.ID_Doc))},
               color: Colors.black87,
               hoverColor: Colors.blue,
               child: Text(

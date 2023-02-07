@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../widget/comment.dart';
+import '../comment.dart';
 import '../../vender/orders/AddOrders.dart';
 
 class DetailsServiceForUser extends StatefulWidget {
@@ -175,9 +175,11 @@ class _DetailsServiceForUserState extends State<DetailsServiceForUser> {
                 ),
                 IconButton(
                   tooltip: "التعليقات",
-                  color: Colors.red,
+                  color: Color.fromARGB(255, 0, 0, 0),
                   onPressed: (() {
-                    Get.to(comment());
+                    Get.to(comment(
+                      ID_doc:widget.ID_Doc ,
+                    ));
                   }),
                   icon: Icon(Icons.comment),
                 )

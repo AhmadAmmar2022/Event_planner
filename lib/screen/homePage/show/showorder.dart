@@ -70,7 +70,7 @@ class _ShowOrderState extends State<ShowOrder> {
                        ),
                         trailing:Text(
                             "${snapshot.data!.docs[i]["status"]}",
-                            style: TextStyle(color: Color.fromARGB(255, 12, 0, 0), fontSize: 25),
+                            style: TextStyle(color: Color.fromARGB(255, 26, 3, 240), fontSize: 25),
                           ),
                       )),
                 );

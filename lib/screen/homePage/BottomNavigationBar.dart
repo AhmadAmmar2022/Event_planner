@@ -31,14 +31,15 @@ class _BottomNavigationState extends State<BottomNavigation> {
   }
 
   final screens = [
+    HomePageSponsor(),
     ShowOrder(),
     Favorite(),
     HomePageService(),
     HomePagePackage(),
-    HomePageSponsor()
+    
   ];
 
-  final _pageController = PageController(initialPage: 3);
+  final _pageController = PageController(initialPage: 4);
   int maxCount = 5;
   @override
   Widget build(BuildContext context) {
@@ -56,6 +57,17 @@ class _BottomNavigationState extends State<BottomNavigation> {
               showLabel: true,
               notchColor: Color.fromARGB(197, 143, 34, 170),
               bottomBarItems: const [
+                     BottomBarItem(
+                  inActiveItem: Icon(
+                    Icons.person,
+                    color: Color.fromARGB(255, 35, 49, 140),
+                  ),
+                  activeItem: Icon(
+                    Icons.person,
+                    color: Color.fromARGB(255, 244, 244, 245),
+                  ),
+                  itemLabel: 'الممولين',
+                ),
                 BottomBarItem(
                   inActiveItem: Icon(
                     Icons.my_library_books,
@@ -100,17 +112,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
                   ),
                   itemLabel: ' الخدمات',
                 ),
-                BottomBarItem(
-                  inActiveItem: Icon(
-                    Icons.person,
-                    color: Color.fromARGB(255, 35, 49, 140),
-                  ),
-                  activeItem: Icon(
-                    Icons.person,
-                    color: Color.fromARGB(255, 244, 244, 245),
-                  ),
-                  itemLabel: ' ',
-                ),
+           
               ],
               onTap: (index) {
                 /// control your animation using page controller

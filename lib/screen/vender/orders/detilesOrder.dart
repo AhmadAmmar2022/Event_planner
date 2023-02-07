@@ -19,11 +19,12 @@ class detilesOrder extends StatefulWidget {
 class _detilesOrderState extends State<detilesOrder> {
    CollectionReference ref = FirebaseFirestore.instance.collection("Orders");
   var options = ['معلقة', 'قيد الانجاز', 'تم الموافقة والحجز'];
-  var _currentItemSelected = "معلقة";
+  var _currentItemSelected = "";
   var updatval = "معلقة";
 
   @override
   void initState() {
+    _currentItemSelected=widget.data['status'];
    updatval=widget.data['status'];
     super.initState();
   }

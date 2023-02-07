@@ -38,13 +38,13 @@ class _AddOrdersState extends State<AddOrders> {
         backgroundColor: Colors.black87,
         elevation: 0,
         title: Text('إضافة الطلب '),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const ShowPackage()));
-          },
-        ),
+        // leading: IconButton(
+        //   icon: Icon(Icons.arrow_back),
+        //   onPressed: () {
+        //     Navigator.pushReplacement(context,
+        //         MaterialPageRoute(builder: (context) => const ShowPackage()));
+        //   },
+        // ),
         centerTitle: true,
         actions: [
           IconButton(
@@ -129,7 +129,11 @@ class _AddOrdersState extends State<AddOrders> {
         "datails": details.text.trim(),
         "status": "معلقة"
       }).then((value) {
-        Get.to(() => AdminRole());
+        Get.snackbar("تمت العملية بنجاح  ", " ",
+          colorText: Colors.white,
+          backgroundColor: Colors.lightBlue,
+          icon: const Icon(Icons.add_alert),
+          snackPosition: SnackPosition.BOTTOM);
       }).catchError((e) {
         print(e);
       });
