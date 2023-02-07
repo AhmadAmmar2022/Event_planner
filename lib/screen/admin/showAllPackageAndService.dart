@@ -32,6 +32,16 @@ class _AdminRoleState extends State<AdminRole> {
   final Stream<QuerySnapshot> _usersStreamService = FirebaseFirestore.instance
       .collection('Service').where('Publishing',isEqualTo:"0")
       .snapshots();
+      
+  @override
+  void initState() {
+  print("===================>");
+ 
+   print("===================>");
+    super.initState();
+  }
+
+    
   @override
   Widget build(BuildContext context) {
     print("===========================");
@@ -44,15 +54,17 @@ class _AdminRoleState extends State<AdminRole> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
+        print(FirebaseAuth.instance.currentUser!.uid);
            Get.to(()=>BottomNavigation());
           },
         ),
         centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(Icons.close),
-            onPressed: () {
-           Get.to(()=>Signin());
+            icon: Icon(Icons.exit_to_app),
+            onPressed: () async{
+             await  FirebaseAuth.instance.signOut();
+             Get.to(()=>Signin()); 
             },
           ),
         ],

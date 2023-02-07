@@ -192,15 +192,15 @@ class _SigninState extends State<Signin> {
       if (documentSnapshot.exists) {
         if (documentSnapshot.get('role') == "vender") {
           sharedpref.setString("role", "vender");
-          Get.to(() => ShowPackage());
+          Get.off(() => ShowPackage());
         } else if (documentSnapshot.get('role') == "sponser") {
           sharedpref.setString("role", "sponser");
-          Get.to(() => HomePageSponsor());
+          Get.off(() => BottomNavigation());
         } else if (documentSnapshot.get('role') == "planner") {
           sharedpref.setString("role", "planner");
-          Get.to(() => BottomNavigation());
+          Get.off(() => BottomNavigation());
         } else {
-          Get.to(() => AdminRole());
+          Get.off(() => AdminRole());
           sharedpref.setString("role", "admin");
         }
       } else {

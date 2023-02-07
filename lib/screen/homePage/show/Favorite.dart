@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ class Favorite extends StatefulWidget {
 
 class _FavoriteState extends State<Favorite> {
   final Stream<QuerySnapshot> _usersStreamPackage =
-      FirebaseFirestore.instance.collection('Favorites').snapshots();
+      FirebaseFirestore.instance.collection('Favorites').where("user_id", isEqualTo: FirebaseAuth.instance.currentUser!.uid).snapshots();
         CollectionReference ref = FirebaseFirestore.instance.collection("Favorites");
 
   @override
@@ -47,7 +48,7 @@ class _FavoriteState extends State<Favorite> {
                 return InkWell(
                   onTap: () {
                     Get.to(() => DetailsForUser(
-                          ID_Doc:snapshot.data!.docs[i],
+                          ID_Doc:snapshot.data!.docs[i].id,
                           data: snapshot.data!.docs[i],
                         ));
                   },

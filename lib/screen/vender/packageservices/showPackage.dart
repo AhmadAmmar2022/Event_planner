@@ -12,6 +12,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../Auth/signin.dart';
 import '../../../widget/services/custom_button.dart';
+import '../../homePage/BottomNavigationBar.dart';
 import 'AddPackage.dart';
 import 'detailsPackage.dart';
 
@@ -43,16 +44,16 @@ class _ShowPackageState extends State<ShowPackage> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const ShowPackage()));
+         Get.to(() => BottomNavigation());
           },
         ),
         centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(Icons.close),
-            onPressed: () {
-              Navigator.pop(context);
+            icon: Icon(Icons.exit_to_app),
+            onPressed: () async{
+             await  FirebaseAuth.instance.signOut();
+             Get.to(()=>Signin()); 
             },
           ),
         ],

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_templeate/main.dart';
 import 'package:file_templeate/screen/vender/service/AddService.dart';
 import 'package:file_templeate/screen/vender/service/serviceDetails.dart';
 import 'package:file_templeate/widget/homeAppBar.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../widget/services/custom_button.dart';
+import '../../../Auth/signin.dart';
 import '../../vender/packageservices/detailsPackage.dart';
 import '../details/detailsForUser.dart';
 
@@ -33,6 +35,14 @@ class _HomePagePackageState extends State<HomePagePackage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [Visibility(
+          visible: sharedpref.getString("role")=='sponser'||sharedpref.getString("role")=='planner',
+          child: IconButton(icon: Icon(Icons.exit_to_app),
+              onPressed: () async{
+               await FirebaseAuth.instance.signOut();
+               Get.to(()=>Signin()); 
+              },),
+        )],
        title: Container(
             padding: EdgeInsets.all(10),
             child: TextFormField(
