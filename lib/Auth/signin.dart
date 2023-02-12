@@ -75,7 +75,7 @@ class _SigninState extends State<Signin> {
                       width: MediaQuery.of(context).size.width * 0.8,
                       margin: EdgeInsets.only(
                           left: MediaQuery.of(context).size.width * 0.09),
-                      child: Image.asset("images/login.png"),
+                      child: Image.asset("images/logo5.png"),
                     ),
                     const SizedBox(
                       height: 24,
@@ -122,24 +122,8 @@ class _SigninState extends State<Signin> {
                         ],
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.symmetric(
-                              vertical: 16, horizontal: 24),
-                          child: InkWell(
-                            onTap: () {},
-                            child: Text(
-                              "نسيت كلمة السر?",
-                              style: TextStyle(
-                                  color: Colors.blue.withOpacity(0.7),
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                    SizedBox(height: 50,),
+                   
                     AuthButton(
                       onTap: () async {
                         await signIn();

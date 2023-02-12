@@ -74,11 +74,11 @@ class _SignUpState extends State<SignUp> {
                         key: formstate,
                         child: Column(children: [
                           Container(
-                            height: 125,
+                            height: 170,
                             width: MediaQuery.of(context).size.width * 0.8,
                             margin: EdgeInsets.only(
                                 left: MediaQuery.of(context).size.width * 0.09),
-                            child: Image.asset("images/login.png"),
+                            child: Image.asset("images/logo5.png"),
                           ),
                           const SizedBox(
                             height: 2,
