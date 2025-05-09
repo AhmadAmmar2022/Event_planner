@@ -1,20 +1,22 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+# 🌟 Event Planner - Event Organizer
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+## About the Project
+**Event Planner** is an app that connects individuals who need event planning services with vendors or sponsors who offer those services. The app allows users to browse packages and offers provided by vendors, selecting services based on images and prices. After choosing a service, the user can send a request to the vendor, and both parties communicate to discuss details and finalize the service.
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+## 🚀 Features
+- Browse event planning services from different vendors.
+- Choose packages based on images, descriptions, and prices.
+- Send requests to vendors for selected services.
+- Communication between users and vendors to finalize details.
+- Leave comments or ratings on services provided by vendors.
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+## 🛠️ Technologies Used
+- **Frontend**: Flutter (for building the mobile application interface).
+- **Backend**: Firebase (for authentication, data storage, and backend functionality).
+- **Database**: Firebase Firestore (to store service and user data).
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+## ⚙️ App Status
+The app is currently under development. The database is being reconnected after the old database was deleted. The application is being updated and integrated with a new database.
+
+## 📸 Screenshots
+As the app is still under development, screenshots will be available once the database connection is established and the app is fully functional.
